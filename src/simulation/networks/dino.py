@@ -76,10 +76,6 @@ class DinoV2(BaseFeaturesExtractor):
         
         self.model = th.hub.load('facebookresearch/dinov2', 'dinov2_vits14',pretrained=True)
         
-        # get model specific transforms (normalization, resize)
-        #data_config = timm.data.resolve_model_data_config(self.model)
-        #self.transforms = timm.data.create_transform(**data_config, is_training=False)
-        ## loading pretrained model
         
         
     def forward(self, observations: th.Tensor) -> th.Tensor:

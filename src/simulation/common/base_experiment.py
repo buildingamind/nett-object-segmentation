@@ -1,14 +1,7 @@
 import abc
 import os
-from pprint import pprint
-import hydra
-from omegaconf import DictConfig, OmegaConf, open_dict
-import pdb
-
+from omegaconf import open_dict
 import common.base_agent as base_agent
-from env_wrapper.chickai_env_wrapper import ChickAIEnvWrapper
-import common.logger as logger
-
 
 class Experiment(abc.ABC):
     def __init__(self, config):
@@ -19,9 +12,8 @@ class Experiment(abc.ABC):
         run_id = config["run_id"]
         self.mode = config["mode"]
         
-    
         self.reward = agent_config["reward"]
-        self.rewarded = True if self.reward.lower() == "supervised" else False
+        self.rewarded = self.reward.lower() == "supervised"
         
         self.log_path = config["log_path"]
         self.test_eps = config["test_eps"]
@@ -34,6 +26,8 @@ class Experiment(abc.ABC):
                 agent_config.env_log_path = self.env_config['log_path']
                 agent_config.rec_path = os.path.join(self.env_config["rec_path"], agent_config.agent_id)
                 agent_config.recording_frames = self.env_config["recording_frames"]
+                agent_config.env_object_background = f"ship_{self.env_config['background']}" if self.env_config["use_ship"]  \
+                    else f"fork_{self.env_config['background']}"
             self.agents.append(self.new_agent(agent_config))
 
     
@@ -45,17 +39,15 @@ class Experiment(abc.ABC):
         for agent in self.agents:
             env_config = self.env_config
             with open_dict(env_config):
-                
                 mode = "rest"
                 env_config["mode"] = self.generate_mode_parameter(mode,env_config)
                 env_config["random_pos"] = True
-                
                 
                 if self.rewarded:
                     env_config["rewarded"] = self.rewarded
                 
                 env_config["run_id"] = agent.id + "_" + "train"
-                env_config["rec_path"] = agent.rec_path + "/"
+                env_config["rec_path"] = os.path.join(agent.rec_path , "train", "/")    
                 env_config["log_title"] = self.generate_log_title(env_config)
                 
             
@@ -72,7 +64,8 @@ class Experiment(abc.ABC):
                 
                 env_config["mode"] = self.generate_mode_parameter(mode, env_config)
                 env_config["run_id"] = agent.id + "_" + mode
-                
+                env_config["rec_path"] = os.path.join(agent.rec_path , "test", "/")
+
                 if self.rewarded:
                     env_config["rewarded"] = self.rewarded
                 env_config["reward"] = self.reward
@@ -86,7 +79,6 @@ class Experiment(abc.ABC):
     def run(self):
         if self.mode == "train":
             self.train_agents()
-            ## rest inside the test
         elif self.mode == "test":
             self.test_agents("test")
         elif self.mode == "full":

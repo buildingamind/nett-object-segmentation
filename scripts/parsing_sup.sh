@@ -1,2 +1,3 @@
 #!/bin/bash
-python src/simulation/run_parsing_exp.py ++run_id=ship_backgroundA_exp_1 ++Environment.env_path=data/executables/parsing_benchmark/parsing_app.x86_64
+python src/simulation/run_parsing_exp.py ++run_id='parsing_ego4d_lstm_fork_A_nf_exp1' ++Environment.use_ship=False ++Environment.background=A ++Agent.policy=LSTM
+python src/simulation/run_parsing_exp.py ++run_id='parsing_ego4d_lstm_fork_A_nf_exp2' ++Environment.use_ship=False ++Environment.background=A ++Agent.policy=LSTM

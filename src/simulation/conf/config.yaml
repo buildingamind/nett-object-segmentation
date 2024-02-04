@@ -1,11 +1,8 @@
 agent_count: 1
-run_id: parsing_simclr_ship_A_exp
-#log_path: /data/mchivuku/embodiedai/benchmark_experiments/oneshot/base_agents/small/${run_id}
-log_path: data/${run_id}
-mode: full
+run_id: parsing_grokking_ppo_fork_B_exp5
+log_path: /data/mchivuku/embodiedai/iclr/grokking/small/ppo/${run_id}
+mode: train
 train_eps: 1000
-test_eps: 20
-num_conditions: 28
 hydra.job.chdir: True
 cuda: 0
 experiment: parsing

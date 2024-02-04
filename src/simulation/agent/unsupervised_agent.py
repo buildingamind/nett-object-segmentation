@@ -102,8 +102,6 @@ class ICMAgent(BaseAgent):
         
         ## setup tensorboard logger
         new_logger = configure(self.path, ["csv", "tensorboard"])
-        
-        print(self.reward)
         explore_reward = self.initialize_reward_algo(train_env)
                 
         

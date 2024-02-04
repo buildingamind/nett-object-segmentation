@@ -37,7 +37,6 @@ class Ego4D(BaseFeaturesExtractor):
         print("N_input_channels", n_input_channels)
         
         self.model = mvp.load("vits-mae-in")
-        #self.model.freeze()
         
         
     def forward(self, observations: th.Tensor) -> th.Tensor:

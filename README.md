@@ -29,7 +29,7 @@ If users are unfamiliar with how to install a git repository or have never used 
 ├── scripts
 │   ├── parsing_sup.sh
 │   ├── parsing_unsup.sh
-│   └── viewpoint_sup.sh
+│     
 ├── src
 │   ├── analysis
 │   └── simulation
@@ -49,10 +49,7 @@ If users are unfamiliar with how to install a git repository or have never used 
   ├── conf
   ├── env_wrapper
   ├── networks
-  ├── __pycache__
-  ├── run_parsing_exp.py
-  ├── run_parsing_icm.py
-  ├── run_viewpoint_exp.py
+  ├── run.py
   └── utils.py
   
   ```
@@ -132,4 +129,3 @@ If you wish to experiment with custom architectures or a new policy network, thi
 More information related to details on the experiment can be found on following pages.
 
 * [**Parsing Experiment**](docs/Parsing.md)
-* [**ViewPoint Experiment**](docs/ViewInvariant.md)

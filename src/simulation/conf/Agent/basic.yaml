@@ -1,9 +1,8 @@
 reward: supervised
 log_path: ${log_path}/Brains/
-mini_batchsize: 32
+mini_batchsize: 512
 buffer_size: 2048
 policy: PPO
 encoder:
-  name: simclr
-  feature_dimensions: 512
-  train: False
+  name: small
+  train: True

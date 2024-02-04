@@ -1,7 +1,6 @@
 
 #!/usr/bin/env python3
 
-import logging
 import pdb
 import os
 from sb3_contrib import RecurrentPPO
@@ -19,20 +18,11 @@ import pandas as pd
 
 
 from callback.supervised_save_bestmodel_callback import SupervisedSaveBestModelCallback
-from networks.resnet10 import CustomResnet10CNN
-from networks.resnet10 import CustomResnet10CNN
-from networks.resnet18 import CustomResnet18CNN
-from networks.dino import DinoV1, DinoV2
-from networks.ego4d import Ego4D
-from networks.cotracker import CoTracker
-from networks.frozensimclr import FrozenSimCLR
-
-
+from networks.encoder_config import ENCODERS
 from utils import to_dict, write_to_file
 
 from callback.hyperparam_callback import HParamCallback
 from common.base_agent import BaseAgent
-from networks.lstm import CustomCNNLSTM
 from GPUtil import getFirstAvailable
 
 class SupervisedAgent(BaseAgent):
@@ -55,8 +45,16 @@ class SupervisedAgent(BaseAgent):
         self.callback_list = CallbackList([self.callback, self.hparamcallback, self.checkpoint_callback])
         
         
+        
     #Train an agent. Still need to allow exploration wrappers and non PPO rl algos.
     def train(self, env, eps):
+        """
+        Trains the agent using the specified environment and number of episodes.
+
+        Args:
+            env (gym.Env): The environment to train the agent on.
+            eps (int): The number of episodes to train the agent for.
+        """
         steps = env.steps_from_eps(eps)
         env = Monitor(env, self.path)
         
@@ -67,87 +65,26 @@ class SupervisedAgent(BaseAgent):
             return
         
         e_gen = lambda : env
-        envs = make_vec_env(env_id=e_gen, n_envs=1)
+        envs = make_vec_env(env_id=e_gen, n_envs=1, seed=self.seed)
         
         ## setup tensorboard logger
         new_logger = configure(self.path, ["stdout", "csv", "tensorboard"])
-        
-        ## Setup the encoder
-        policy_kwargs = dict(features_extractor_kwargs=dict(features_dim=self.feature_dimensions))
-        if self.encoder_type == "small":
-                policy_kwargs = {}
-        elif self.encoder_type == "medium":
-                policy_kwargs["features_extractor_class"] = CustomResnet10CNN
-        elif self.encoder_type == "large":
-            policy_kwargs["features_extractor_class"] = CustomResnet18CNN
-        
-        elif self.encoder_type == "dinov1":
-            policy_kwargs["features_extractor_class"] = DinoV1
-            
-        elif self.encoder_type == "dinov2":
-            policy_kwargs["features_extractor_class"] = DinoV2
-        
-        elif self.encoder_type == "ego4d":
-            policy_kwargs["features_extractor_class"] = Ego4D
-        
-        elif self.encoder_type == "cotracker":
-            policy_kwargs["features_extractor_class"] = CoTracker
-        
-        elif self.encoder_type == 'simclr':
-            policy_kwargs["features_extractor_class"] = FrozenSimCLR
-               
-        else:
-            raise Exception(f"unknown network size: {self.encoder_type}")
-        
-        
-        
-        
-        ## Add small, medium and large network
-        if self.policy.lower() == "ppo":
-            policy_model = "CnnPolicy"
-            
-            self.model = PPO(policy_model, envs, 
-                             batch_size = self.batch_size, ## minibatch size for one gradient update - https://github.com/gzrjzcx/ML-agents/blob/master/docs/Training-PPO.md
-                             n_steps = self.buffer_size, # rollout buffer size
-                             tensorboard_log=self.path,
-                             verbose = 0, policy_kwargs=policy_kwargs, 
-                             device=self.device)
-            
-
-        else:
-            policy = "CnnLstmPolicy"
-            
-            self.model = RecurrentPPO(policy,\
-                envs,
-                batch_size=self.batch_size,
-                n_steps = self.buffer_size,
-                tensorboard_log=self.path,
-                device=self.device, 
-                verbose=0,
-                policy_kwargs = policy_kwargs)
-            print(self.model)
-        
-        
-        
+        self.model = self.setup_model()
         self.model.set_logger(new_logger)
-        print(f"Total training steps:{steps}")
         
         ## Set Encoder requires grad
         if not self.train_encoder:
             self.model = self.set_feature_extractor_require_grad(self.model)
         
-        
         ## write model properties to the file
         self.write_model_properties(self.model, steps)
         
         ## check if everything is initialized correctly        
-        requires_grad_str = ""
-        for param in self.model.policy.features_extractor.parameters():
-            requires_grad_str+=str(param.requires_grad)
+        # requires_grad_str = ""
+        # for param in self.model.policy.features_extractor.parameters():
+        #     requires_grad_str+=str(param.requires_grad)
         
-        print("Features Extractor Grad:"+ requires_grad_str)
-        
-        
+        # print("Features Extractor Grad:"+ requires_grad_str)
         
         self.model.learn(total_timesteps=steps, tb_log_name=f"{self.id}",\
                          progress_bar=True,\
@@ -160,7 +97,68 @@ class SupervisedAgent(BaseAgent):
         ## plot reward graph
         self.plot_results(steps, plot_name=f"reward_graph_{self.id}")
         # save encoder and policy network state dict - to perform model analysis
-        #self.save_encoder_policy_network()
+        self.save_encoder_policy_network()
 
+    def create_model(self, policy_model, envs, policy_kwargs):
+        """
+        Creates a PPO model for the supervised agent.
+
+        Args:
+            policy_model (object): The policy model to be used.
+            envs (object): The environment to interact with.
+            policy_kwargs (dict): Additional keyword arguments for the policy.
+
+        Returns:
+            object: The recurrent model for the supervised agent.
+        """
+        return PPO(policy_model, envs, 
+                batch_size=self.batch_size,
+                n_steps=self.buffer_size,
+                tensorboard_log=self.path,
+                verbose=0, 
+                policy_kwargs=policy_kwargs, 
+                device=self.device)
+
+    def create_recurrent_model(self, policy_model, envs, policy_kwargs):
+        """
+        Creates a recurrent PPO model for the supervised agent.
+
+        Args:
+            policy_model (object): The policy model to be used.
+            envs (object): The environment to interact with.
+            policy_kwargs (dict): Additional keyword arguments for the policy.
+
+        Returns:
+            object: The recurrent model for the supervised agent.
+        """
+        return RecurrentPPO(policy_model, envs, 
+                            batch_size=self.batch_size,
+                            n_steps=self.buffer_size,
+                            tensorboard_log=self.path,
+                            device=self.device, 
+                            verbose=0,
+                            policy_kwargs=policy_kwargs)
     
-    
+
+    def setup_model(self):
+        """
+        Set up the model for the agent.
+
+        Returns:
+            The created model for the agent.
+        """
+        policy_model = "CnnPolicy" if self.policy.lower() == "ppo" else "CnnLstmPolicy"
+        model_creator = self.create_model if self.policy.lower() == "ppo" else self.create_recurrent_model
+        
+        policy_kwargs = dict(features_extractor_kwargs=dict(features_dim=self.encoder_dim))
+        if self.encoder_type == "small":
+            policy_kwargs = {}
+        else:
+            policy_kwargs['feature_extractor_class'] = ENCODERS[self.encoder]['encoder']
+
+        
+        ## each checkpoint corresponds to an imprinting condition.
+        if self.encoder_type =="simclr":
+            policy_kwargs["features_extractor_kwargs"]["object_background"] = self.object_background
+        
+        return model_creator(policy_model, self.envs, policy_kwargs)

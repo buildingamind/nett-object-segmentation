@@ -5,11 +5,26 @@ import sys
 import os
 import json
 import socket
+from typing import Dict
 import pandas as pd
 import numpy as np
+from omegaconf import DictConfig, OmegaConf
 
+
+import logging
+import sys
 
 def create_logger(name, loglevel=logging.INFO):
+    """
+    Create a logger with the specified name and log level.
+
+    Args:
+        name (str): The name of the logger.
+        loglevel (int, optional): The log level for the logger. Defaults to logging.INFO.
+
+    Returns:
+        logging.Logger: The created logger.
+    """
     logger = logging.getLogger(name)
     logger.setLevel(loglevel)
     handler = logging.StreamHandler(stream=sys.stdout)
@@ -21,6 +36,15 @@ def create_logger(name, loglevel=logging.INFO):
 
 
 def port_in_use(port):
+    """
+    Check if a given port is already in use.
+
+    Args:
+        port (int): The port number to check.
+
+    Returns:
+        bool: True if the port is in use, False otherwise.
+    """
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         sock.bind(("localhost", port))
@@ -29,7 +53,18 @@ def port_in_use(port):
     return False
 
 
-def save_configuration(args, log_dir,filename="configuration.json"):
+def save_configuration(args, log_dir, filename="configuration.json"):
+    """
+    Save the configuration arguments to a JSON file.
+
+    Args:
+        args: The configuration arguments.
+        log_dir: The directory where the JSON file will be saved.
+        filename: The name of the JSON file (default is 'configuration.json').
+
+    Returns:
+        None
+    """
     dict = {}
     dict.update(vars(args))
     
@@ -58,7 +93,6 @@ def compute_train_performance(path):
             
             break
             
-        
         return x, y
     except Exception as ex:
         print(str(ex))
@@ -164,17 +198,14 @@ def write_to_file(file_path, d):
         file.write(json.dumps(d)) 
     return True
 
-def to_dict(d):
-    output = {}
+
+def omegaconf_to_dict(d: DictConfig) -> Dict:
+    """Converts an omegaconf DictConfig to a python Dict, respecting variable interpolation."""
+    ret = {}
     for k, v in d.items():
-        if isinstance(v, list):
-            l = []
-            for item in v:
-                d = output(item)
-                l.append(d)
-            output[k] = l
-        elif isinstance(v, str) or isinstance(v, int):
-            output[k] = v
+        if isinstance(v, DictConfig):
+            ret[k] = omegaconf_to_dict(v)
         else:
-            continue
-    return output
+            ret[k] = v
+    return ret
+

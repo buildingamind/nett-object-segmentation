@@ -17,9 +17,6 @@ from networks.disembodied_models.models.archs import resnets
 from networks.disembodied_models.models.archs import resnet_3b
 from networks.disembodied_models.models.archs import resnet_2b
 from networks.disembodied_models.models.archs import resnet_1b
-from networks.disembodied_models.models.archs.resnet_3b import resnet_3blocks
-from networks.disembodied_models.models.archs.resnet_2b import resnet_2blocks
-from networks.disembodied_models.models.archs.resnet_1b import resnet_1block
 
 
 #for distributed gpus when batch size>512 and training_epochs>100

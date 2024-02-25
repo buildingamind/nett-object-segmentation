@@ -9,17 +9,20 @@ from subprocess import Popen, PIPE
 parser = argparse.ArgumentParser(description='run analysis script')
 parser.add_argument("--log-dir", type=str, help="Working directory of the agents' log files",\
     required=True)
-parser.add_argument("--results-dir", type=str, help="Working directory to store the merged output",\
-    required=True)
 parser.add_argument("--results-name", type=str, help="File name for the R file storing the results",\
     required=False, default="segmentation_data")
 
 
 parser.add_argument("--ep-bucket", type=int, help="How many episodes to group the x-axis by",\
     required=False, default=100)
+
 parser.add_argument("--key-csv", type=str, dest="key_csv",
                     help="Full address of the key file that designates condition and correct monitor for each trial",
-                    required=False, default="segmentation_key_new.csv")
+                    required=False, default="Keys/segmentation_key_new.csv")
+
+parser.add_argument("--chick-file", type=str, dest="chick_file",
+                    help="Full address of the key file that designates condition and correct monitor for each trial",
+                    required=False, default="ChickData/ChickData_Parsing.csv")
 
 
 def build_r_script_for_merge(args):
@@ -33,7 +36,7 @@ def build_r_script_for_merge(args):
         args (_type_): _description_
     """
     log_dir = args.log_dir
-    results_dir = args.results_dir
+    results_dir = args.log_dir
     results_name = args.results_name
     
     cmd = ["Rscript","NETT_merge_csvs.R"]
@@ -53,15 +56,17 @@ def build_r_script_for_train(args):
         args (_type_): _description_
     """
     log_dir = args.log_dir
-    results_dir = args.results_dir
+    results_dir = args.log_dir
     results_name = args.results_name
     ep_bucket = args.ep_bucket
+    num_episodes = 1000
     
     script_name = "NETT_train_viz.R"
     cmd = ["Rscript","NETT_train_viz.R"]
     cmd.extend(["--data-loc", os.path.join(results_dir, results_name)])
     cmd.extend(["--results-wd", results_dir])
     cmd.extend(["--ep-bucket", f"{ep_bucket}"])
+    cmd.extend(["--num-episodes", f"{num_episodes}"])
     
     print(cmd)
     return cmd, script_name
@@ -76,10 +81,11 @@ def build_r_script_for_test(args):
         args (_type_): _description_
     """
     log_dir = args.log_dir
-    results_dir = args.results_dir
+    results_dir = args.log_dir
     results_name = args.results_name
     ep_bucket = args.ep_bucket
     key_csv =args.key_csv
+    chick_file = args.chick_file
     
     script_name = "NETT_test_viz.R"
     cmd = ["Rscript",script_name]
@@ -87,7 +93,8 @@ def build_r_script_for_test(args):
     cmd.extend(["--data-loc", data_loc])
     cmd.extend(["--key-csv", key_csv])
     cmd.extend(["--results-wd" , results_dir])
-    cmd.extend(["--color-dots", "T"])
+    cmd.extend(["--color-bars", "T"])
+    cmd.extend(['--chick-file', chick_file])
     
     return cmd,    f"./{script_name}"
     
@@ -97,7 +104,6 @@ def run_R(script_name,args):
     if "merge" in script_name:
         cmd, name = build_r_script_for_merge(args)
     elif "train" in script_name:
-        print(script_name)
         cmd, name = build_r_script_for_train(args)
     elif "test" in script_name:
         cmd, name = build_r_script_for_test(args)

@@ -28,13 +28,13 @@ class FrozenSimCLR(BaseFeaturesExtractor):
         n_input_channels = observation_space.shape[0]
         background = object_background.lower()
         checkpoint_file = {
-            "ship_a": "sim_clr/ship_A/epoch=97-step=14601.ckpt",
-            "ship_b": "sim_clr/ship_B/epoch=97-step=14601.ckpt",
-            "ship_c": "sim_clr/ship_C/epoch=96-step=14452.ckpt",
-            "fork_b": "sim_clr/fork_B/epoch=95-step=14303.ckpt",
-            "ship_b": "sim_clr/ship_B/epoch=97-step=14601.ckpt",
-            "fork_a": "sim_clr/fork_A/epoch=97-step=14601.ckpt",
-            "fork_c": "sim_clr/fork_C/epoch=97-step=14601.ckpt"
+            "ship_a": "simclr/ship_A/checkpoints/epoch=97-step=14601.ckpt",
+            "ship_b": "simclr/ship_B/checkpoints/epoch=97-step=14601.ckpt",
+            "ship_c": "simclr/ship_C/checkpoints/epoch=96-step=14452.ckpt",
+            "fork_b": "simclr/fork_B/checkpoints/epoch=95-step=14303.ckpt",
+            "ship_b": "simclr/ship_B/checkpoints/epoch=97-step=14601.ckpt",
+            "fork_a": "simclr/fork_A/checkpoints/epoch=97-step=14601.ckpt",
+            "fork_c": "simclr/fork_C/checkpoints/epoch=97-step=14601.ckpt"
         }
         
         checkpoint_file_path = os.path.join(checkpoint_path, checkpoint_file.get(background, ""))

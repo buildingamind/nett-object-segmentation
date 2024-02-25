@@ -39,12 +39,6 @@ args <- parser$parse_args()
 data_wd <- args$logs_dir; results_wd <- args$results_dir; results_name <- args$results_name
 csv_train_name <- args$csv_train_name; csv_test_name <- args$csv_test_name
 
-
-#data_wd <- "/data/mchivuku/embodiedai/benchmark_experiments/parsing-new"
-#results_wd <- "/data/mchivuku/embodiedai/benchmark_experiments/parsing-new"
-#results_name <- "segmentation_data.R"
-
-
 # Set Zones:
 upper_x_lim <- 10
 lower_x_lim <- -10
@@ -61,45 +55,63 @@ library(tidyverse)
 # Get all of the subdirectory csv filenames
 setwd(data_wd)
 train_files <- list.files(pattern="train.csv", recursive = TRUE)
-test_files <- list.files(pattern="exp.csv", recursive = TRUE)
-print(paste(train_files))
-
-
+test_files <- list.files(pattern="test.csv", recursive = TRUE)
+paste0(test_files)
 # Main Function ----------------------------------------------------------------
 
 # This function reads in a single csv (later we'll lapply it across all files)
 read_data <- function(filename)
 {
-  # Read the csv file
-  data <- read.csv(filename)
-  
-  if(nrow(data)>0){
+  tryCatch(
+        {
+    paste0(filename)
+    # Read the csv file
+    data <- read.csv(filename)
     
-  # Summarize by zones
-  data <- data %>%
-    mutate(left = case_when( agent.x < lower_bound ~ 1, agent.x >= lower_bound ~ 0)) %>%
-    mutate(right = case_when( agent.x > upper_bound ~ 1, agent.x <= upper_bound ~ 0)) %>%
-    mutate(middle = 1- left - right)
-  # Quick check to make sure that one and only one zone is chosen at each step
-  stopifnot(all( (data$left + data$right + data$middle == 1) ))
-  # Summarize at the episode level
-  data <- data %>%
-    group_by(Episode, left.monitor, right.monitor) %>%
-    summarise(left_steps = sum(left), 
-              right_steps = sum(right), 
-              middle_steps = sum(middle)) %>%
-    mutate(Episode = as.numeric(Episode)) %>%
-    mutate(left.monitor = sub(" ", "", left.monitor)) %>%
-    mutate(right.monitor = sub(" ", "", right.monitor)) %>%
-    ungroup()
-  
-  # Add columns for original filename, agent ID number, and imprinting condition
-  data$filename <- basename(filename)
-  data$agent <- gsub("\\D", "", data$filename)
-  data$imprinting <- strsplit(basename(filename), "-")[[1]][1]
+    # Summarize by zones
+    data <- data %>%
+      mutate(left = case_when( agent.x < lower_bound ~ 1, agent.x >= lower_bound ~ 0)) %>%
+      mutate(right = case_when( agent.x > upper_bound ~ 1, agent.x <= upper_bound ~ 0)) %>%
+      mutate(middle = 1- left - right)
+    # Quick check to make sure that one and only one zone is chosen at each step
+    stopifnot(all( (data$left + data$right + data$middle == 1) ))
+    # Summarize at the episode level
+    data <- data %>%
+      group_by(Episode, left.monitor, right.monitor) %>%
+      summarise(left_steps = sum(left), 
+                right_steps = sum(right), 
+                middle_steps = sum(middle)) %>%
+      mutate(Episode = as.numeric(Episode)) %>%
+      mutate(left.monitor = sub(" ", "", left.monitor)) %>%
+      mutate(right.monitor = sub(" ", "", right.monitor)) %>%
+      ungroup()
+    
+    # Add columns for original filename, agent ID number, and imprinting condition
+    data$filename <- basename(filename)
+    data$agent <- gsub("\\D", "", data$filename)
+    data$imprinting <- strsplit(basename(filename), "-")[[1]][1]
 
-  return(data)
-  }
+    return(data)
+    },
+    error = function(cond) {
+            message(paste("filename does not seem to exist:", filename))
+            message("Here's the original error message:")
+            message(conditionMessage(cond))
+            # Choose a return value in case of error
+            NA
+        },
+        finally = {
+            # NOTE:
+            # Here goes everything that should be executed at the end,
+            # regardless of success or error.
+            # If you want more than one expression to be executed, then you
+            # need to wrap them in curly brackets ({...}); otherwise you could
+            # just have written 'finally = <expression>' 
+            message(paste("Processed filename:", filename))
+            message("Some other message at the end")
+        }
+  
+  )
 }
 
 # Combine csv's and save results -----------------------------------------------
@@ -114,7 +126,10 @@ test_data <- bind_rows(test_data)
 
 # Save it
 setwd(results_wd)
-save(train_data, test_data, file=results_name)
+save(train_data,test_data,file=results_name)
 if( !is.null(csv_train_name) ) write.csv(train_data, csv_train_name)
 if( !is.null(csv_test_name) ) write.csv(test_data, csv_test_name)
+
+
+
 

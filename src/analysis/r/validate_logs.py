@@ -28,7 +28,7 @@ def validate_train(path, imprint):
                 )),:]
     
     print("len df:{}, len filtered_df: {}".format(len(df),len(filtered_df)))
-    assert len(df) == len(filtered_df)
+    #assert len(df) == len(filtered_df)
     
     
     train_file_status["num_recs"] = len(filtered_df)

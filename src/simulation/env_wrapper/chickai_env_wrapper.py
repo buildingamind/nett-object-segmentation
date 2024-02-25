@@ -9,16 +9,9 @@ from gym_unity.envs import UnityToGymWrapper
 
 from common.logger import Logger
 from env_wrapper.dvs_wrapper import DVSWrapper
+from env_wrapper.observation_wrapper import StitchVisualObservationsWrapper
 from utils import port_in_use
 import pdb
-
-import gym
-from typing import Optional
-from abc import abstractmethod
-from unity_environment import UnityEnvironment
-from unity_to_gym_wrapper import UnityToGymWrapper
-from dvs_wrapper import DVSWrapper
-from logger import Logger
 
 class ChickAIEnvWrapper(gym.Wrapper):
     """
@@ -62,15 +55,21 @@ class ChickAIEnvWrapper(gym.Wrapper):
             base_port += 1
 
         # Create logger
-        self.log = self._create_logger(run_id=run_id)
+        self.log = self._create_logger(run_id=run_id, kwargs=kwargs)
 
         # Create environment and connect it to logger
         env = UnityEnvironment(env_path, side_channels=[self.log], additional_args=args, base_port=base_port)
-        self.env = UnityToGymWrapper(env, uint8_visual=True)
+        twoeyed = kwargs['twoeyed']
+        if not twoeyed:
+            self.env = UnityToGymWrapper(env, uint8_visual=True)
+        else:
+            env = UnityToGymWrapper(env, uint8_visual=True, allow_multiple_obs=True)
+            self.env = StitchVisualObservationsWrapper(env)
+
 
         if "dvs_wrapper" in kwargs and kwargs["dvs_wrapper"]:
             self.env = DVSWrapper(self.env)
-
+        
         super().__init__(self.env)
 
     def _parse_arguments(self, kwargs):

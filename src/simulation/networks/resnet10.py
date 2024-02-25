@@ -26,8 +26,7 @@ class CustomResnet10CNN(BaseFeaturesExtractor):
         
         n_input_channels = observation_space.shape[0]
         
-        self.cnn = _resnet(BasicBlock, [2, 2, 2, 2])
-        
+        self.cnn = _resnet(BasicBlock, [2, 2, 2, 2],num_channels = n_input_channels)
         
         
         with th.no_grad():
@@ -115,6 +114,7 @@ class ResNet(nn.Module):
         self,
         block,
         layers,
+        num_channels,
         num_classes=1000,
         zero_init_residual=False,
         groups=1,
@@ -145,9 +145,10 @@ class ResNet(nn.Module):
         self.groups = groups
         self.base_width = width_per_group
 
-        # ------ layers before first residual block ---------------       
+        # ------ layers before first residual block --------------- 
         if first_conv:
-            self.conv1 = nn.Conv2d(3, self.inplanes, kernel_size=7, stride=2, padding=3, bias=False)
+            self.conv1 = nn.Conv2d(num_channels, self.inplanes, kernel_size=7, stride=2, padding=3, bias=False)
+            
         else:
             self.conv1 = nn.Conv2d(3, self.inplanes, kernel_size=3, stride=1, padding=1, bias=False)
 

@@ -14,7 +14,7 @@ from omegaconf import DictConfig, OmegaConf
 import logging
 import sys
 
-def create_logger(name, loglevel=logging.INFO):
+def debug_logger(name, loglevel=logging.INFO):
     """
     Create a logger with the specified name and log level.
 

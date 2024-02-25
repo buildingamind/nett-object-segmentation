@@ -16,10 +16,10 @@ from GPUtil import getFirstAvailable
 
 import matplotlib.pyplot as plt
 import numpy as np
-from utils import create_logger, to_dict, write_to_file
+from utils import debug_logger, to_dict, write_to_file
 from sb3_contrib import RecurrentPPO
 from tqdm import tqdm
-from simulation.networks.encoder_config import ENCODERS
+from networks.encoder_config import ENCODERS
 
 class BaseAgent(ABC):
     def __init__(self, agent_id="Default Agent", \
@@ -38,6 +38,7 @@ class BaseAgent(ABC):
             raise ValueError(f"Encoder type '{self.encoder_type}' not found in encoder_config file.")
         self.encoder = ENCODERS[self.encoder_type]['encoder']
         self.encoder_dim = ENCODERS[self.encoder_type]['feature_dimensions']
+        self.train_encoder = encoder.get('train',True)
         
         ## get other parameters
         self.batch_size = kwargs['mini_batchsize']
@@ -61,6 +62,7 @@ class BaseAgent(ABC):
         self.plots_path = os.path.join(self.path , "plots")
         os.makedirs(self.plots_path, exist_ok = True)
 
+        self.env_log_path = kwargs['env_log_path']
         self.model_save_path = os.path.join(self.path, "model")
 
         ## recordings path - recordings
@@ -73,7 +75,7 @@ class BaseAgent(ABC):
         torch.cuda.set_device(self.device_num[0])
         assert torch.cuda.current_device() == self.device_num[0]
 
-        self.debug_logger = create_logger(self.path, "agent.log")
+        self.debug_logger = debug_logger(os.path.join(self.path, "agent.log"))
         self.object_background = kwargs.get("env_object_background","")
 
         
@@ -92,7 +94,7 @@ class BaseAgent(ABC):
         """
         self.load()
         if self.model == None:
-            self.debug_logger("Usage Error: model is not specified either train a new model or load a trained model")
+            self.debug_logger.error("Usage Error: model is not specified either train a new model or load a trained model")
             return
         
         #Run the testing
@@ -108,7 +110,7 @@ class BaseAgent(ABC):
         
         
         if self.policy.lower()=="ppo":
-            self.debug_logger(f"Total number of steps:{steps}")
+            self.debug_logger.info(f"Total number of steps:{steps}")
             obs = envs.reset()
             for i in tqdm(range(steps), desc="Testing progress"):
                 action, _states = self.model.predict(obs, deterministic=True)
@@ -125,7 +127,7 @@ class BaseAgent(ABC):
             
         else:
             total_number_of_episodes = env.total_number_of_test_eps(eps)
-            self.debug_logger(total_number_of_episodes)
+            self.debug_logger.info(total_number_of_episodes)
             num_envs = 1
             for i in tqdm(range(total_number_of_episodes), desc="Testing progress"):
                 obs = env.reset()
@@ -174,15 +176,15 @@ class BaseAgent(ABC):
         Args:
             path (str): model saved path. Defaults to None.
         """
-        self.debug_logger("load called")
+        self.debug_logger.info("load called")
         if path == None:
             path = self.model_save_path
         
-        self.debug_logger(self.model_save_path)
+        self.debug_logger.info(self.model_save_path)
         if self.policy.lower() == "ppo":
             self.model = PPO.load(self.model_save_path, print_system_info=True)
         else:
-            self.debug_logger("Loading recurrent agent:" + self.model_save_path)
+            self.debug_logger.info("Loading recurrent agent:" + self.model_save_path)
             self.model = RecurrentPPO.load(self.model_save_path, print_system_info=True)
         
     def check_env(self, env):
@@ -200,7 +202,7 @@ class BaseAgent(ABC):
         """
         env_check = check_env(env, warn=True)
         if env_check != None:
-            self.debug_logger(f"Failed env check: {str(ex)}")
+            self.debug_logger.error(f"Failed env check: {str(ex)}")
             raise Exception(f"Failed env check")
         
         return True
@@ -234,7 +236,7 @@ class BaseAgent(ABC):
         """
         self.load()
         if self.model == None:
-            self.debug_logger("Usage Error: model is not specified either train a new model or load a trained model")
+            self.debug_logger.error("Usage Error: model is not specified either train a new model or load a trained model")
             return
         
         base_path, model_name = os.path.split(self.model_save_path)
@@ -248,7 +250,7 @@ class BaseAgent(ABC):
         save_path = os.path.join(base_path, "feature_extractor.pth")
         torch.save(encoder, save_path)
         
-        self.debug_logger(f"Saved feature_extractor: {save_path}")
+        self.debug_logger.info(f"Saved feature_extractor: {save_path}")
         return
     
     def set_feature_extractor_require_grad(self, model):

@@ -19,12 +19,11 @@ parser$add_argument("--results-wd", type="character", dest="results_wd",
 parser$add_argument("--ep-bucket", type="integer", dest="ep_bucket_size",
                     help="How many episodes to group the x-axis by",
                     required=TRUE)
+parser$add_argument("--num-episodes", type="integer", dest="num_episodes",
+                    help="How many episodes should be included",
+                    required=TRUE)
 args <- parser$parse_args()
-data_loc <- args$data_loc; results_wd <- args$results_wd; ep_bucket_size <- args$ep_bucket_size 
-
-#data_loc <- "/data/mchivuku/embodiedai/benchmark_experiments/parsing-new/segmentation_data.R"
-#results_wd <- "/data/mchivuku/embodiedai/benchmark_experiments/parsing-new"
-#ep_bucket_size <- 100
+data_loc <- args$data_loc; results_wd <- args$results_wd; ep_bucket_size <- args$ep_bucket_size; num_episodes <- args$num_episodes
 
 # Set Up -----------------------------------------------------------------------
 
@@ -35,12 +34,13 @@ rm(test_data)
 setwd(results_wd)
 
 train_data_fixed <- train_data %>%
+  filter(Episode < num_episodes) %>%
   # Create variables for correct/incorrect calculations
   mutate(correct_steps = if_else(right.monitor == "White", left_steps, right_steps)) %>%
   mutate(incorrect_steps = if_else(right.monitor == "White", right_steps, left_steps)) %>%
   mutate(percent_correct = correct_steps / (correct_steps + incorrect_steps)) %>%
   # Summarise data by condition, agent, and episode bucket for graphing
-  mutate(episode_block = Episode%/%ep_bucket_size) %>%
+  mutate(episode_block = Episode%/%ep_bucket_size + 1) %>%
   group_by(imprinting, agent, episode_block) %>%
   summarise(avgs = mean(percent_correct, na.rm = TRUE),
             sd = sd(percent_correct, na.rm = TRUE),
@@ -62,14 +62,16 @@ for (cond in unique(train_data_fixed$imprinting))
   ggplot(data=data, aes(x=episode_block, y=avgs, color=as.factor(agent))) +
     geom_line() +
     theme_classic(base_size = 16) +
-    geom_hline(yintercept = .5) + 
-    ggtitle("Imprinting Performance") + 
+    geom_hline(yintercept = .5, linetype = 2) +
     xlab(sprintf("Groups of %d Episodes", ep_bucket_size)) + 
     ylab("Average Time with Imprinted Object") +
-    scale_y_continuous(expand = c(0, 0), limits = c(0, 1), breaks=seq(0,1,.1), labels = scales::percent) + 
-    scale_x_discrete(labels = scales::label_wrap(10)) +
+    scale_y_continuous(expand = c(0, 0), limits = c(0, 1), 
+                       breaks=seq(0,1,.1), labels = scales::percent) + 
+    scale_x_continuous(expand = c(0, 0), limits = c(0, num_episodes/ep_bucket_size), 
+                       breaks = seq(0, num_episodes / ep_bucket_size, 1)) +
     theme(legend.position="none") 
   
   img_name <- paste0(cond, "_train.png")
   ggsave(img_name)
 }
+

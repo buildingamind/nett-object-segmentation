@@ -8,6 +8,11 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+docs/build/
+docs/source/
+docs/make.bat
+docs/Makefile
+.readthedocs.yaml
 build/
 develop-eggs/
 dist/
@@ -288,7 +293,7 @@ dmypy.json
 .pyre/
 
 #Data
-Data/
+data/
 *.csv
 *.png
 site/
@@ -317,4 +322,4 @@ site/
 __pycache__/
 
 
-# find . | grep -E "(/__pycache__$|\.py
+#find . | grep -E "(/__pycache__$|\.py

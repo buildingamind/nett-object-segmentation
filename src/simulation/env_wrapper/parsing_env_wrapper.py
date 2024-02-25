@@ -42,3 +42,5 @@ class ParsingEnv(ChickAIEnvWrapper):
         
         return step_per_episode * eps * self.numb_conditions
     
+    def total_number_of_test_eps(self, eps):
+        return self.numb_conditions * eps

@@ -2,12 +2,13 @@ import abc
 import os
 from omegaconf import open_dict
 import common.base_agent as base_agent
-
+import pdb
 class Experiment(abc.ABC):
     def __init__(self, config):
         self.env_config = config["Environment"]
         agent_config = config["Agent"]
         agent_count = config["agent_count"]
+        self.twoeyed  = agent_config["TwoEyed"]
         
         run_id = config["run_id"]
         self.mode = config["mode"]
@@ -49,9 +50,11 @@ class Experiment(abc.ABC):
                 env_config["run_id"] = agent.id + "_" + "train"
                 env_config["rec_path"] = os.path.join(agent.rec_path , "train", "/")    
                 env_config["log_title"] = self.generate_log_title(env_config)
+                env_config["twoeyed"] = self.twoeyed;
                 
             
             env = self.generate_environment(env_config)
+            #pdb.set_trace()
             agent.train(env, self.train_eps)
             agent.save()
             env.close()
@@ -69,7 +72,7 @@ class Experiment(abc.ABC):
                 if self.rewarded:
                     env_config["rewarded"] = self.rewarded
                 env_config["reward"] = self.reward
-                
+                env_config["twoeyed"] = self.twoeyed;
                 env_config["log_title"] = self.generate_log_title(env_config)
             env = self.generate_environment(env_config)
             agent.test(env, self.test_eps, mode)

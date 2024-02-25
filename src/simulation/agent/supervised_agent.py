@@ -69,7 +69,7 @@ class SupervisedAgent(BaseAgent):
         
         ## setup tensorboard logger
         new_logger = configure(self.path, ["stdout", "csv", "tensorboard"])
-        self.model = self.setup_model()
+        self.model = self.setup_model(envs)
         self.model.set_logger(new_logger)
         
         ## Set Encoder requires grad
@@ -80,12 +80,13 @@ class SupervisedAgent(BaseAgent):
         self.write_model_properties(self.model, steps)
         
         ## check if everything is initialized correctly        
-        # requires_grad_str = ""
-        # for param in self.model.policy.features_extractor.parameters():
-        #     requires_grad_str+=str(param.requires_grad)
+        requires_grad_str = ""
+        for param in self.model.policy.features_extractor.parameters():
+            requires_grad_str+=str(param.requires_grad)
         
-        # print("Features Extractor Grad:"+ requires_grad_str)
-        
+        print("Features Extractor Grad:"+ requires_grad_str)
+        self.debug_logger.info("Training the agent")
+        self.debug_logger.info(self.model)
         self.model.learn(total_timesteps=steps, tb_log_name=f"{self.id}",\
                          progress_bar=True,\
                          callback=[self.callback_list])
@@ -140,7 +141,7 @@ class SupervisedAgent(BaseAgent):
                             policy_kwargs=policy_kwargs)
     
 
-    def setup_model(self):
+    def setup_model(self,envs):
         """
         Set up the model for the agent.
 
@@ -154,11 +155,11 @@ class SupervisedAgent(BaseAgent):
         if self.encoder_type == "small":
             policy_kwargs = {}
         else:
-            policy_kwargs['feature_extractor_class'] = ENCODERS[self.encoder]['encoder']
+            policy_kwargs['features_extractor_class'] = ENCODERS[self.encoder_type]['encoder']
 
         
         ## each checkpoint corresponds to an imprinting condition.
         if self.encoder_type =="simclr":
             policy_kwargs["features_extractor_kwargs"]["object_background"] = self.object_background
         
-        return model_creator(policy_model, self.envs, policy_kwargs)
+        return model_creator(policy_model, envs, policy_kwargs)

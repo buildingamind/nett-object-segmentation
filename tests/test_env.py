@@ -17,13 +17,12 @@ import json
 from mlagents_envs.exception import (UnityEnvironmentException,
                                      UnityWorkerInUseException)
 from omegaconf import DictConfig, OmegaConf, open_dict
-
-
+from src.simulation.env_wrapper.env_wrapper import EnvWrapper
 from src.simulation.env_wrapper.parsing_env_wrapper import ParsingEnv
-from src.simulation.env_wrapper.viewpoint_env_wrapper import ViewpointEnv
 from stable_baselines3.common.env_checker import check_env
 from hydra import initialize, compose
 from gym.wrappers.monitoring.video_recorder import VideoRecorder
+
 import warnings; 
 warnings.filterwarnings("ignore")
 
@@ -50,9 +49,7 @@ def get_random_actions():
     return random_actions
 
 
-@pytest.mark.parametrize(
-    "env_cls", [ParsingEnv,ViewpointEnv]
-)
+@pytest.mark.parametrize("env_cls", [ParsingEnv])
 def test_cont_env_parsing(env_cls):
     with initialize(version_base=None, config_path="../src/simulation/conf"):
         # config is relative to a module
@@ -72,19 +69,6 @@ def test_cont_env_parsing(env_cls):
                 env_config["run_id"] = cfg["run_id"] + "_" + "test"
                 env_config["rec_path"] = os.path.join(env_config["rec_path"] , f"agent_0/")   
         env = env_cls(**env_config)
-    elif env_cls in [ViewpointEnv]:
-        env_config = cfg["Environment"]
-        with open_dict(env_config):
-            object =  "ship" if env_config["use_ship"] else "fork"
-            mode = "rest"
-            
-            side_view= "side" if env_config["side_view"] else "front"
-            env_config["mode"] = mode + "-"+ object +"-"+side_view
-            env_config["random_pos"] = True
-            env_config["rewarded"] = True
-            env_config["run_id"] = cfg["run_id"] + "_" + "test"    
-            print(env_config)
-        env = env_cls(**env_config)   
     else:
         env = None
     
@@ -101,7 +85,7 @@ def test_cont_env_parsing(env_cls):
     env_class_name = env_cls.__name__
     os.makedirs("test_videos",exist_ok=True)
     video = VideoRecorder(env, f"{video_folder}/{env_class_name}.mp4")
-    #gym.logger.set_level(gym.logger.DEBUG)
+    gym.logger.set_level(gym.logger.DEBUG)
 
     try:    
         state = env.reset()

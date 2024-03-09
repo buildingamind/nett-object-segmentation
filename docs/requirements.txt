@@ -1,0 +1,4 @@
+sphinx
+mkdocs
+sphinx-rtd-theme
+myst-parser

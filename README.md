@@ -3,17 +3,12 @@
 # A NEWBORN EMBODIED TURING TEST FOR COMPARING OBJECT SEGMENTATION ACROSS ANIMALS AND MACHINES
  Manjulata Garimella, Denizhan Pak, Justin N. Wood, Samantha M. W. Wood 
 
+| [Lab Website](http://buildingamind.com/) 
+| [Paper](https://openreview.net/pdf?id=qhkEOCcVX9)
+| [Dataset](https://origins.luddy.indiana.edu/unity/iclr-2024/)
+| [Getting Started](#getting-started) 
+|![Documentation](https://buildingamind.github.io/nett-object-segmentation/) 
 ![GitHub License](https://img.shields.io/github/license/buildingamind/nett-object-segmentation)
-
-[Lab Website](http://buildingamind.com/)
-
-[Paper](https://openreview.net/pdf?id=qhkEOCcVX9)
-
-[Dataset](https://origins.luddy.indiana.edu/unity/iclr-2024/)
-
-[Getting Started](#getting-started) 
-
-![Documentation](https://buildingamind.github.io/nett-object-segmentation/) 
 
 </div>
 

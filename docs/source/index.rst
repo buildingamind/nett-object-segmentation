@@ -1,14 +1,25 @@
 .. NETT Object Segmentation (ICLR 2024) documentation master file, created by
-   sphinx-quickstart on Fri Mar  8 11:28:04 2024.
+   sphinx-quickstart on Fri Mar  8 19:27:57 2024.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to NETT Object Segmentation (ICLR 2024)'s documentation!
+Newborn Embodied Turing Test (NETT) Object Segmentation
 ================================================================
 
+Documentation
+=============
+
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :titlesonly:
+
+   documentation/index
+
+.. .. toctree::
+..    :titlesonly:
+
+..    documentation/agent
+..    documentation/environment
+..    documentation/networks
 
 
 
@@ -16,5 +27,6 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+
+.. * :ref:`search`
+.. * :ref:`modindex`

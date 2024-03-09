@@ -1,5 +1,5 @@
-
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 import pdb
 import os
@@ -26,27 +26,36 @@ from common.base_agent import BaseAgent
 from GPUtil import getFirstAvailable
 
 class SupervisedAgent(BaseAgent):
-    def __init__(self, agent_id="Default Agent", \
-        log_path="./Brains",
-        **kwargs):
+    """
+    A class representing a supervised agent.
+
+    Attributes:
+        agent_id (str): The ID of the agent.
+        log_path (str): The path to save the agent's logs.
+        callback (SupervisedSaveBestModelCallback): The callback for saving the best model.
+        hparamcallback (HParamCallback): The callback for saving hyperparameters.
+        checkpoint_callback (CheckpointCallback): The callback for saving checkpoints.
+        callback_list (CallbackList): The list of callbacks.
+    """
+
+    def __init__(self, agent_id="Default Agent", log_path="./Brains", **kwargs):
+        """
+        Initialize the SupervisedAgent.
+
+        Args:
+            agent_id (str, optional): The ID of the agent. Defaults to "Default Agent".
+            log_path (str, optional): The path to save the agent's logs. Defaults to "./Brains".
+            **kwargs: Additional keyword arguments for the agent.
+        """
         super().__init__(agent_id, log_path, **kwargs)
         
-        self.callback = SupervisedSaveBestModelCallback(summary_freq=self.summary_freq,\
-            log_dir=self.path, \
-            env_log_path = self.env_log_path, agent_id = self.id)
+        self.callback = SupervisedSaveBestModelCallback(summary_freq=self.summary_freq, log_dir=self.path, env_log_path=self.env_log_path, agent_id=self.id)
         
         self.hparamcallback = HParamCallback()
-        self.checkpoint_callback = CheckpointCallback(save_freq=self.summary_freq,
-                                                      save_path=os.path.join(self.path, "checkpoints"),
-                                                      name_prefix="supervised_model",
-                                                      save_replay_buffer=True,
-                                                      save_vecnormalize=True)
+        self.checkpoint_callback = CheckpointCallback(save_freq=self.summary_freq, save_path=os.path.join(self.path, "checkpoints"), name_prefix="supervised_model", save_replay_buffer=True, save_vecnormalize=True)
         
         self.callback_list = CallbackList([self.callback, self.hparamcallback, self.checkpoint_callback])
         
-        
-        
-    #Train an agent. Still need to allow exploration wrappers and non PPO rl algos.
     def train(self, env, eps):
         """
         Trains the agent using the specified environment and number of episodes.

@@ -12,14 +12,16 @@ from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common import results_plotter
 
-from GPUtil import getFirstAvailable
 
 import matplotlib.pyplot as plt
 import numpy as np
-from utils import debug_logger, to_dict, write_to_file
 from sb3_contrib import RecurrentPPO
 from tqdm import tqdm
+
+from utils import debug_logger, to_dict, write_to_file
 from networks.encoder_config import ENCODERS
+from GPUtil import getFirstAvailable
+
 
 class BaseAgent(ABC):
     def __init__(self, agent_id="Default Agent", \

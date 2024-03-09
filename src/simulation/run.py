@@ -2,13 +2,14 @@ import json
 import os
 
 import yaml
-import common.base_agent as base_agent
 import hydra
 from omegaconf import DictConfig, OmegaConf, open_dict
 import pdb
 import pprint
-from src.simulation.utils import omegaconf_to_dict
+from utils import omegaconf_to_dict
 import torch
+
+import common.base_agent as base_agent
 
 from agent.supervised_agent import SupervisedAgent
 from agent.unsupervised_agent import ICMAgent

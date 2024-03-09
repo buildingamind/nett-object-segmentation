@@ -1,9 +1,6 @@
-
 #!/usr/bin/env python3
 
 from env_wrapper.chickai_env_wrapper import ChickAIEnvWrapper
-
-
 
 class ParsingEnv(ChickAIEnvWrapper):
     """

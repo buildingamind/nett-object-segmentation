@@ -5,12 +5,12 @@ from typing import Dict, Tuple
 
 import  gym
 import numpy as np
-from networks.inverse_forward_networks import Encoder, ForwardDynamicsModel, InverseDynamicsModel
 import torch as th
 from torch import nn
 from torch.nn import functional as F
 from torch.utils.data import DataLoader, TensorDataset
 
+from networks.inverse_forward_networks import Encoder, ForwardDynamicsModel, InverseDynamicsModel
 
 class ICM(object):
     """Curiosity-Driven Exploration by Self-Supervised Prediction.

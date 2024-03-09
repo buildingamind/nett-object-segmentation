@@ -4,11 +4,13 @@ from typing import Dict, Tuple
 
 import  gym
 import numpy as np
-from networks.target_predict_networks import RNDEncoder
 import torch as th
 from torch import nn
 from torch.nn import functional as F
 from torch.utils.data import DataLoader, TensorDataset
+
+
+from networks.target_predict_networks import RNDEncoder
 
 
 class RND(object):

@@ -6,3 +6,4 @@ Common Base Classes
 
 .. autoclass:: common.base_experiment.Experiment
     :members:
+    :inherited-members:

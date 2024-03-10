@@ -39,36 +39,36 @@ If users are unfamiliar with how to install a git repository or have never used 
 
 ```
 .
-├── docs                             # Documentation and guides
-├── data												                 # Placeholder to storing executables, runs and checkpoints
+├── docs                     # Documentation and guides
+├── data										 # Placeholder to storing executables, runs and checkpoints
 │   ├── checkpoints 
 │   │   └── simclr
 │   ├── executables
 │   │   ├── parsing_benchmark2eyed
 │   │   └── parsing_benchmark
 │   └── runs
-├── LICENSE											               # License file
-├── README.md													           # Readme file
-├── requirements.txt									        # requirements.txt file containing project requirements
-├── scripts														            # Example scripts for running experiments
+├── LICENSE									 # License file
+├── README.md								 # Readme file
+├── requirements.txt				 # requirements.txt file containing project requirements
+├── scripts									 # Example scripts for running experiments
 │   └── parsing_sup.sh
 ├── setup.cfg
-├── src															               # Folder containing src code
-│   ├── analysis											          # Folder containing R-scripts for doing analysis
+├── src										     # Folder containing src code
+│   ├── analysis							 # Folder containing R-scripts for doing analysis
 │   │   ├── r														
 │   │   └── README.md
-│   └── simulation										         # Folder containing simulation code for experiments
-│       ├── agent											         # Agent configuration
-│       ├── algorithms								       # Algorithms - like Intrinsic curiosity module
-│       ├── callback									        # Callback functions to compute metrics during training
-│       ├── common											        # Common function
-│       ├── conf										           # Hydra configuration for running experiments
-│       ├── env_wrapper								      # Environment wrapper 
-│       ├── GPUtil.py										      # GPUUtils functions
-│       ├── networks										       # Encoders models
-│       ├── run.py                   # Main file to run experiment
-│       └── utils.py										       # Utility functions
-└── tests															             # pytests folder
+│   └── simulation						 # Folder containing simulation code for experiments
+│       ├── agent							 # Agent configuration
+│       ├── algorithms					 # Algorithms - like Intrinsic curiosity module
+│       ├── callback						 # Callback functions to compute metrics during training
+│       ├── common						 # Common function
+│       ├── conf							 # Hydra configuration for running experiments
+│       ├── env_wrapper					 # Environment wrapper 
+│       ├── GPUtil.py					 # GPUUtils functions
+│       ├── networks					 # Encoders models
+│       ├── run.py             # Main file to run experiment
+│       └── utils.py					 # Utility functions
+└── tests									     # pytests folder
     ├── pytest.ini		
     └── test_env.py
 
@@ -81,16 +81,92 @@ The section describes how to get started with running the experiments and perfor
 
 ## How to Install
 
-In this section, you will pull this repository from Github, open the Unity environment, and build the ChickAI environment as an executable.
+This section describes the installation of simulation code and running the benchmark experiments.
+
+### Downloading Unity Assets
+
+The first step is downloading unity executable. The unity executables can be downloaded from:
+
+| Unity Executable  | Link |
+| ------------- | ------------- |
+| Parsing  | https://origins.luddy.indiana.edu/unity/iclr-2024/executables/parsing.zip    |
+| Parsing Stereo (2-eyed agent)  | https://origins.luddy.indiana.edu/unity/iclr-2024/executables/parsing_stereo.zip     |
+ 
+After downloading the execuatable run following commands to unzip and copy into executables folder in data
+
+```
+mkdir data
+cd data
+mkdir executables
+unzip <name_of_executable>
+mv <name_of_executable> executables/.
+```
+Ensure there is following directory structure
+```
+.
+└── data/
+    └── executables/
+        ├── <exp_name>/
+        │   └── <build_artifcats>
+        ├── <exp_name>/
+        │   └── <build_artifacts>
+        ├── .
+        ├── .
+        └── <exp_name>/
+            └── <build_artifacts>
+```
+
+The next step is to give executable 755 permissions, as shown below. For example:
+
+```
+chmod -R 755 data/executables/parsing/parsing.x86_64
+```
+
+After this step, run 
+```
+nvidia-smi
+```
+This will show you if anyone else is running on the server, and if so, what GPUs they are using. It will also show you if the X Server is running. The X server acts as a virtual display (so that the game isn't played "headless.") If the X Server is running correctly, the bottom "processes" table will show "/usr/lib/xorg/Xorg" for every GPU. If you don't see the Xorg process, then the X Server needs to be restarted. The command to restart the server is below, but note that you'll need sudo privileges to restart the X Server
+
+```
+sudo /usr/bin/X :0 
+```
+
+Make Ubuntu use X Server for display.
+
+```
+export DISPLAY=:0
+```
+
+### Downloading Pretrained Models
+In order, to run pretrained SIMCLR experiments download the model state dict from:[SIMCLR](https://origins.luddy.indiana.edu/unity/iclr-2024/checkpoints/simclr). Copy the checkpoints into - data/checkpoints folder. The new directory structure show look like this:
+```
+├── data
+│   ├── checkpoints
+│   │   └── simclr
+│   │       ├── fork_A
+│   │       ├── fork_B
+│   │       ├── fork_C
+│   │       ├── ship_A
+│   │       ├── ship_B
+│   │       └── ship_C
+│   ├── executables
+│   │   └── parsing_benchmark
+│   │       ├── parsing_Data
+│   │       ├── parsing.x86_64
+│   │       └── UnityPlayer.so
+│   └── runs
+```
 
 ### Codebase Installation
 
-1. **Install Git and/or Github Desktop ** : If you install Git, you'll be able to interact with Github through the command line. You can download Git using the directions here: [https://git-scm.com/downloads](https://git-scm.com/downloads). If you install Git Desktop, you can use a GUI to interact with Github. You can install Github Desktop by following the directions here: [https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/). For the following steps, I will provide the command line arguments (but you can use the GUI to find the same options in Github Desktop).
+1. **Install Git and/or Github Desktop**: If you install Git, you'll be able to interact with Github through the command line. You can download Git using the directions here: [https://git-scm.com/downloads](https://git-scm.com/downloads). If you install Git Desktop, you can use a GUI to interact with Github. You can install Github Desktop by following the directions here: [https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/). For the following steps, I will provide the command line arguments (but you can use the GUI to find the same options in Github Desktop).
 
 2. To download the repository, click the Code button on the nett-object-segmentation repo. Copy the provided web URL. Then follow the code below to change to directory where you want the repo (denoted here as MY_FOLDER) and then clone the repo.
    ```
    cd MY_FOLDER
-   git clone URL_YOU_COPIED_GOES_HERE
+   git clone git@github.com:buildingamind/nett-object-segmentation.git
+
    ```
    
 3. **Virtual Environment Setup** (Highly Recommended): Create and activate a virtual environment to avoid dependency conflicts.
@@ -102,7 +178,7 @@ In this section, you will pull this repository from Github, open the Unity envir
 
 5. Install the needed versions of `setuptools` and `pip`:
    ```bash
-   pip install setuptools==65.5.0 pip==21 wheel==0.38.4
+   pip install setuptools==65.5.0 pip==21 
    ```
    **NOTE:** This is a result of incompatibilities with the subdependency `gym==0.21`. More information about this issue can be found [here](https://github.com/openai/gym/issues/3176#issuecomment-1560026649)
 
@@ -111,42 +187,103 @@ In this section, you will pull this repository from Github, open the Unity envir
    pip install -r requirements.txt
    ```
 
+Please check (#known-issues) to address known issues during installation.
+
 ### Running an Experiment (default configuration)
 
-After having followed steps 1-5 above once experiments can be run with a few lines of code
+After having followed steps above experiments can be run with a few lines of code in the script
 
 ```
   bash scripts/parsing_sup.sh
 ```
+or
+
+```
+python src/simulation/run.py
+```
+
+Once the experiment starts running you will see folder with <run_id> gets created based on the path specified in ```src/simulation/conf/config.yaml```
+```
+agent_count: 1
+run_id: parsing_ship_A_exp1
+log_path: data/runs/${run_id}
+mode: full
+train_eps: 1000
+test_eps: 20
+hydra.job.chdir: True
+experiment: parsing
+
+defaults:
+  - _self_
+  - Agent: basic
+  - Environment: parsing
+  - hydra
+```
+The structure of the folder
+```
+.
+└── parsing_ship_A_exp1
+    ├── Brains
+    │   └── parsing_ship_A_exp1_Agent_0
+    │       ├── checkpoints
+    │       ├── events.out.tfevents.1710031706.bear.2140391.0
+    │       ├── model_agent_dump.json
+    │       ├── monitor.csv
+    │       ├── plots
+    │       └── progress.csv
+    ├── Env_Logs
+    │   └── ship_A-parsing_ship_A_exp1_Agent_0_train.csv
+    ├── Recordings
+    │   └── parsing_ship_A_exp1_Agent_0
+    │       └── train
+    |       └── test
+    └── run.log
+```
 
 ### Running Standard Analysis
 
-After running the experiments, the pipeline will generate a collection of datafiles in the `Data` folder. To run the analyses performed in the papers you can use the following command
+After running the experiments, the pipeline will generate a collection of datafiles in the `data/runs` folder. To run the analyses performed in the papers you can use the following command
 
 ```
-python3 src/analysis/r/run_analysis.py
+python3 src/analysis/r/run_analysis.py --log-dir data/runs
 ```
 
 This will generate a collection of graphs in the folder `data/runs`.
 
+
 ### Running an Experiment (custom configuration)
 
-After having replicated the results with the default configuration, you may wish to experiment by plugging in different brains for the agent. We have included a few different possible brains for the agent. To plug these in simply modify the `yaml` file in `src/simulation/conf/Agent/basic.yaml`.
+Please refer following documentation if you wish to experiment plugging different configurations of the brain, policy and modify other environment parameters. 
+
+
+### Known Issues
+
+#### Errors during installation
+
+1. Issue with completing pip install due to torch version mismatch. This can be resolved by manually installing stable-baselines3, stable-baselines3[extra] and sb3_contrib later after pip install in step 3. 
 
 ```
-encoder: BRAIN
+pip install stable-baselines3==1.8
+pip install stable-baselines3[extra]==1.8.0
+pip install sb3_contrib==1.8
+``` 
+##### Errors during running the code
+
+1. torch._six not found.
+
 ```
-
-where **BRAIN** can be set to [small, medium, or large] which correspond to a 4-layer CNN, 10-Layer ResNet, and 18-layer ResNet respectively.
-
-Note that if you change the size of the encoder, you may also consider changing the number of training episodes. This can be done in the config file `src/simulation/conf/config.yaml`.
+File "/home/<user>/anaconda3/envs/nett_env/lib/python3.8/site-packages/pl_bolts/datamodules/async_dataloader.py", line 7, in <module>
+    from torch._six import container_abcs, string_classes
+ModuleNotFoundError: No module named 'torch._six'
+```
+open the 'async_dataloader.py' in 'vi' and comment the line in the error.
 
 ```
-train_eps: NEW_EPISODE_COUNT
+File "/home/<user>/anaconda3/envs/nett_env2/lib/python3.8/site-packages/pl_bolts/datasets/imagenet_dataset.py", line 12, in <module>
+    from torch._six import PY3
+ModuleNotFoundError: No module named 'torch._six'
 ```
-
-If you wish to experiment with custom architectures or a new policy network, this can be done by modifying the agent script (`Simulation/agent.py`**). **`self.model` is the policy network and `self.encoder` is the encoder network. Both can be assigned any appropriately sized **`torch.nn.module`**.
-
+open the file `imagenet_dataset.py` and comment the line.
 
 ## Contributors
 <table>

@@ -128,7 +128,7 @@ def run_R(script_name,args):
 if __name__=="__main__":
     args = parser.parse_args()
     
-    for script in ["merge","test"]:
+    for script in ["merge","train","test"]:
         try:
             run_R(script,args)
         except Exception as ex:

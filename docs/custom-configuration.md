@@ -15,7 +15,7 @@ Note that if you change the size of the encoder, you may also consider changing 
 train_eps: NEW_EPISODE_COUNT
 ```
 
-2. Modifying the Policy Network: The policy network can be modified by updating 'policy' in src/simulation/conf/Agent/basic.yaml. The available options are PPO and LSTM (recurrent policy).
+2. **Modifying the Policy Network**: The policy network can be modified by updating 'policy' in src/simulation/conf/Agent/basic.yaml. The available options are PPO and LSTM (recurrent policy).
 
 ```
 policy: POLICY_NAME
@@ -42,7 +42,7 @@ Replace MODE with either full, train, or test depending on the mode you want to 
 **test**: The experiment will only complete the test run.
 
 
-5. Recording frames seen by the agent. Recording can be turned on by setting various flags in ```src/simulation/conf/Environment/parsing.yaml``` file
+5. **Recording frames seen by the agent** Recording can be turned on by setting various flags in ```src/simulation/conf/Environment/parsing.yaml``` file
 ```
 train_record_agent: TRAIN_AGENT_VALUE
 train_record_chamber: TRAIN_CHAMBER_VALUE

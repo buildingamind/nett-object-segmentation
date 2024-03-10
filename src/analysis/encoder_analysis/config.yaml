@@ -1,0 +1,14 @@
+use_ship: True 
+background: "A"
+base_port: 5100 
+env_path: '../../data/executables/parsing_benchmark/parsing.x86_64'
+rec_path: "runs"
+record_chamber: False
+record_agent: False
+recording_frames: 1000
+dvs_wrapper: False
+mode: 'rest-ship-A'
+random_pos: True
+rewarded: True
+run_id: 'parsing_ship_A_med_exp1_Agent_0_train'
+log_title': 'ship_A-parsing_ship_A_med_exp1_Agent_0_train'

@@ -223,94 +223,14 @@
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="agent.unsupervised_agent.ICM">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">agent.unsupervised_agent.</span></span><span class="sig-name descname"><span class="pre">ICM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">envs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observation_space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action_space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'cpu'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kappa</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.5e-05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rwd_norm_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'rms'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs_norm_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'none'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_proportion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoder_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'mnih'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_init</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'orthogonal'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/algorithms/icm.html#ICM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#agent.unsupervised_agent.ICM" title="Permalink to this definition"></a></dt>
-<dd><dl class="simple">
-<dt>Curiosity-Driven Exploration by Self-Supervised Prediction.</dt><dd><p>See paper: <a class="reference external" href="http://proceedings.mlr.press/v70/pathak17a/pathak17a.pdf">http://proceedings.mlr.press/v70/pathak17a/pathak17a.pdf</a></p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="agent.unsupervised_agent.ICMAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">agent.unsupervised_agent.</span></span><span class="sig-name descname"><span class="pre">ICMAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Default</span> <span class="pre">Agent'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reward</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'icm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./Brains'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/agent/unsupervised_agent.html#ICMAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#agent.unsupervised_agent.ICMAgent" title="Permalink to this definition"></a></dt>
+<dd><p>ICM agent with callback to implement intrinsic curiosity reward</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>observation_space</strong> (<em>Space</em>) – The observation space of environment.</p></li>
-<li><p><strong>action_space</strong> (<em>Space</em>) – The action space of environment.</p></li>
-<li><p><strong>device</strong> (<em>str</em>) – Device (cpu, cuda, …) on which the code should be run.</p></li>
-<li><p><strong>beta</strong> (<em>float</em>) – The initial weighting coefficient of the intrinsic rewards.</p></li>
-<li><p><strong>kappa</strong> (<em>float</em>) – The decay rate.</p></li>
-<li><p><strong>latent_dim</strong> (<em>int</em>) – The dimension of encoding vectors.</p></li>
-<li><p><strong>lr</strong> (<em>float</em>) – The learning rate.</p></li>
-<li><p><strong>batch_size</strong> (<em>int</em>) – The batch size for update.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Instance of ICM.</p>
+<dd class="field-odd"><p><strong>BaseAgent</strong> (<em>_type_</em>) – _description_</p>
 </dd>
 </dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="agent.unsupervised_agent.ICM.compute_irs">
-<span class="sig-name descname"><span class="pre">compute_irs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sync</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="../_modules/algorithms/icm.html#ICM.compute_irs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#agent.unsupervised_agent.ICM.compute_irs" title="Permalink to this definition"></a></dt>
-<dd><p>Compute the intrinsic rewards for current samples.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>samples</strong> (<em>Dict</em>) – The collected samples. A python dict like
-{obs (n_steps, n_envs, <a href="#id1"><span class="problematic" id="id2">*</span></a>obs_shape) &lt;class ‘th.Tensor’&gt;,
-actions (n_steps, n_envs, <a href="#id3"><span class="problematic" id="id4">*</span></a>action_shape) &lt;class ‘th.Tensor’&gt;,
-rewards (n_steps, n_envs) &lt;class ‘th.Tensor’&gt;,
-next_obs (n_steps, n_envs, <a href="#id5"><span class="problematic" id="id6">*</span></a>obs_shape) &lt;class ‘th.Tensor’&gt;}.</p></li>
-<li><p><strong>sync</strong> (<em>bool</em>) – Whether to update the reward module after the <cite>compute</cite> function, default is <cite>True</cite>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The intrinsic rewards.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="agent.unsupervised_agent.ICM.normalize">
-<span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="../_modules/algorithms/icm.html#ICM.normalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#agent.unsupervised_agent.ICM.normalize" title="Permalink to this definition"></a></dt>
-<dd><p>Normalize the observations data, especially useful for images-based observations.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="agent.unsupervised_agent.ICM.scale">
-<span class="sig-name descname"><span class="pre">scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intrinsic_rewards</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="../_modules/algorithms/icm.html#ICM.scale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#agent.unsupervised_agent.ICM.scale" title="Permalink to this definition"></a></dt>
-<dd><p>Scale the intrinsic rewards.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>intrinsic_rewards</strong> (<em>th.Tensor</em>) – The intrinsic rewards.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The scaled intrinsic rewards.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="agent.unsupervised_agent.ICM.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/algorithms/icm.html#ICM.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#agent.unsupervised_agent.ICM.update" title="Permalink to this definition"></a></dt>
-<dd><p>Update the intrinsic reward module if necessary.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>samples</strong> – The collected samples. A python dict like
-{obs (n_steps, n_envs, <a href="#id7"><span class="problematic" id="id8">*</span></a>obs_shape) &lt;class ‘th.Tensor’&gt;,
-actions (n_steps, n_envs, <a href="#id9"><span class="problematic" id="id10">*</span></a>action_shape) &lt;class ‘th.Tensor’&gt;,
-rewards (n_steps, n_envs) &lt;class ‘th.Tensor’&gt;,
-next_obs (n_steps, n_envs, <a href="#id11"><span class="problematic" id="id12">*</span></a>obs_shape) &lt;class ‘th.Tensor’&gt;}.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="agent.unsupervised_agent.ICM.weight">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">weight</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#agent.unsupervised_agent.ICM.weight" title="Permalink to this definition"></a></dt>
-<dd><p>Get the weighting coefficient of the intrinsic rewards.</p>
-</dd></dl>
-
 </dd></dl>
 
 </section>

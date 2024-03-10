@@ -5,6 +5,6 @@ Agent
     :members:
 
 
-.. autoclass:: agent.unsupervised_agent.ICM
+.. autoclass:: agent.unsupervised_agent.ICMAgent
     :members:
 

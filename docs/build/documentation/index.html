@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Documentation &mdash; NETT Object Segmentation (ICLR 2024) 1.0.0 documentation</title>
+  <title>Run Experiment &mdash; NETT Object Segmentation (ICLR 2024) 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
@@ -46,7 +46,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Documentation</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Run Experiment</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="common.html">Common Base Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="agent.html">Agent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="environment.html">Environment</a></li>
@@ -70,7 +70,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Documentation</li>
+      <li class="breadcrumb-item active">Run Experiment</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/documentation/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -80,8 +80,52 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="documentation">
-<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading"></a></h1>
+  <section id="module-run.ParsingExperiment">
+<span id="run-experiment"></span><h1>Run Experiment<a class="headerlink" href="#module-run.ParsingExperiment" title="Permalink to this heading"></a></h1>
+<p>Class contains code for parsing experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">param Experiment<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Base class for experiments.</p>
+</dd>
+<dt class="field-even">type Experiment<span class="colon">:</span></dt>
+<dd class="field-even"><p>class</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="run.ParsingExperiment.config">
+<span class="sig-prename descclassname"><span class="pre">run.ParsingExperiment.</span></span><span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#run.ParsingExperiment.config" title="Permalink to this definition"></a></dt>
+<dd><p>Configuration parameters for the experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="run.ParsingExperiment.generate_environment">
+<span class="sig-prename descclassname"><span class="pre">run.ParsingExperiment.</span></span><span class="sig-name descname"><span class="pre">generate_environment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#run.ParsingExperiment.generate_environment" title="Permalink to this definition"></a></dt>
+<dd><p>Generates an environment based on the given configuration.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="run.ParsingExperiment.generate_mode_parameter">
+<span class="sig-prename descclassname"><span class="pre">run.ParsingExperiment.</span></span><span class="sig-name descname"><span class="pre">generate_mode_parameter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#run.ParsingExperiment.generate_mode_parameter" title="Permalink to this definition"></a></dt>
+<dd><p>Generates a mode parameter based on the given mode and environment configuration.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="run.ParsingExperiment.new_agent">
+<span class="sig-prename descclassname"><span class="pre">run.ParsingExperiment.</span></span><span class="sig-name descname"><span class="pre">new_agent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#run.ParsingExperiment.new_agent" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new agent based on the given configuration.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="run.ParsingExperiment.generate_log_title">
+<span class="sig-prename descclassname"><span class="pre">run.ParsingExperiment.</span></span><span class="sig-name descname"><span class="pre">generate_log_title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#run.ParsingExperiment.generate_log_title" title="Permalink to this definition"></a></dt>
+<dd><p>Generates a log title based on the environment configuration.</p>
+</dd></dl>
+
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="common.html">Common Base Classes</a><ul>
@@ -120,123 +164,6 @@
 </li>
 </ul>
 </div>
-<dl class="py class">
-<dt class="sig sig-object py" id="run.ParsingExperiment">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">run.</span></span><span class="sig-name descname"><span class="pre">ParsingExperiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/run.html#ParsingExperiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#run.ParsingExperiment" title="Permalink to this definition"></a></dt>
-<dd><p>Class contains code for parsing experiment.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>Experiment</strong> (<em>class</em>) – Base class for experiments.</p>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="run.ParsingExperiment.config">
-<span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#run.ParsingExperiment.config" title="Permalink to this definition"></a></dt>
-<dd><p>Configuration parameters for the experiment.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="run.ParsingExperiment.generate_environment">
-<span class="sig-name descname"><span class="pre">generate_environment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/run.html#ParsingExperiment.generate_environment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#run.ParsingExperiment.generate_environment" title="Permalink to this definition"></a></dt>
-<dd><p>Generates an environment based on the given configuration.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="run.ParsingExperiment.generate_mode_parameter">
-<span class="sig-name descname"><span class="pre">generate_mode_parameter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/run.html#ParsingExperiment.generate_mode_parameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#run.ParsingExperiment.generate_mode_parameter" title="Permalink to this definition"></a></dt>
-<dd><p>Generates a mode parameter based on the given mode and environment configuration.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="run.ParsingExperiment.new_agent">
-<span class="sig-name descname"><span class="pre">new_agent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/run.html#ParsingExperiment.new_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#run.ParsingExperiment.new_agent" title="Permalink to this definition"></a></dt>
-<dd><p>Creates a new agent based on the given configuration.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="run.ParsingExperiment.generate_log_title">
-<span class="sig-name descname"><span class="pre">generate_log_title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/run.html#ParsingExperiment.generate_log_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#run.ParsingExperiment.generate_log_title" title="Permalink to this definition"></a></dt>
-<dd><p>Generates a log title based on the environment configuration.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">generate_environment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/run.html#ParsingExperiment.generate_environment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Permalink to this definition"></a></dt>
-<dd><p>Generates an environment based on the given configuration.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>env_config</strong> (<em>dict</em>) – A dictionary containing the configuration parameters for the environment.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of the ParsingEnv class representing the generated environment.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="environment.html#env_wrapper.parsing_env_wrapper.ParsingEnv" title="env_wrapper.parsing_env_wrapper.ParsingEnv">ParsingEnv</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">generate_log_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/run.html#ParsingExperiment.generate_log_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Permalink to this definition"></a></dt>
-<dd><p>Generates a log title based on the environment configuration.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>env_config</strong> (<em>dict</em>) – Environment configuration data.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Computed log title.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">generate_mode_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/run.html#ParsingExperiment.generate_mode_parameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Permalink to this definition"></a></dt>
-<dd><p>Generates a mode parameter based on the given mode and environment configuration.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>mode</strong> (<em>str</em>) – The mode to be included in the parameter.</p></li>
-<li><p><strong>env_config</strong> (<em>dict</em>) – The environment configuration containing the background and use_ship information.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The generated mode parameter.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">new_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/run.html#ParsingExperiment.new_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Permalink to this definition"></a></dt>
-<dd><p>Creates a new agent based on the given configuration.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>config</strong> (<em>dict</em>) – Configuration parameters for the agent.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of the agent based on the configuration.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="agent.html#agent.supervised_agent.SupervisedAgent" title="agent.supervised_agent.SupervisedAgent">SupervisedAgent</a> or <a class="reference internal" href="agent.html#agent.unsupervised_agent.ICMAgent" title="agent.unsupervised_agent.ICMAgent">ICMAgent</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 <span class="target" id="module-utils"></span><dl class="py function">
 <dt class="sig sig-object py" id="utils.average_in_episode_three_region">
 <span class="sig-prename descclassname"><span class="pre">utils.</span></span><span class="sig-name descname"><span class="pre">average_in_episode_three_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'agent.x'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transient</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils.html#average_in_episode_three_region"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.average_in_episode_three_region" title="Permalink to this definition"></a></dt>

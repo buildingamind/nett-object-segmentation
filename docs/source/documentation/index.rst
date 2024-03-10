@@ -1,5 +1,10 @@
-Documentation
-=============
+
+
+Run Experiment
+==============
+
+.. automodule:: run.ParsingExperiment
+    :members:
 
 .. toctree:: 
   :maxdepth: 2
@@ -10,8 +15,7 @@ Documentation
   networks
   callback
 
-.. autoclass:: run.ParsingExperiment
-    :members:
+
 
 .. automodule:: utils
     :members:

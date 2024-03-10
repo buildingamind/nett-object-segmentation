@@ -200,6 +200,7 @@ or
 
 ```
 python src/simulation/run.py
+
 ```
 
 Once the experiment starts running you will see folder with <run_id> gets created based on the path specified in ```src/simulation/conf/config.yaml```

@@ -2,3 +2,5 @@ sphinx
 mkdocs
 sphinx-rtd-theme
 myst-parser
+torch
+gym==0.21.0

@@ -93,7 +93,7 @@ class SupervisedAgent(BaseAgent):
         for param in self.model.policy.features_extractor.parameters():
             requires_grad_str+=str(param.requires_grad)
         
-        print("Features Extractor Grad:"+ requires_grad_str)
+        #print("Features Extractor Grad:"+ requires_grad_str)
         self.debug_logger.info("Training the agent")
         self.debug_logger.info(self.model)
         self.model.learn(total_timesteps=steps, tb_log_name=f"{self.id}",\

@@ -4,6 +4,7 @@ import os
 from algorithms.rnd import RND
 from callback.hyperparam_callback import HParamCallback
 from common.base_agent import BaseAgent
+from src.simulation.callback.intrinsic_reward_callback import IntrinsicRewardCallback
 from utils import to_dict, write_to_file
 
 
@@ -41,6 +42,7 @@ class ICMAgent(BaseAgent):
     """
     def __init__(self, agent_id="Default Agent", \
         reward="icm", log_path="./Brains", **kwargs):
+        
         super().__init__(agent_id, log_path, **kwargs)
         
         self.reward = reward
@@ -87,7 +89,7 @@ class ICMAgent(BaseAgent):
                                                       save_replay_buffer=True,
                                                       save_vecnormalize=True)
         
-        self.callback_list = CallbackList([self.hparamcallback, self.checkpoint_callback])
+        
         
         
         
@@ -97,13 +99,20 @@ class ICMAgent(BaseAgent):
         
         e_gen = lambda : env
         train_env = make_vec_env(env_id=e_gen, n_envs=1)
-        train_env = RecordEpisodeStatistics(train_env)
-        train_env = VecTransposeImage(train_env)
+        #train_env = RecordEpisodeStatistics(train_env)
         
         ## setup tensorboard logger
         new_logger = configure(self.path, ["csv", "tensorboard"])
-        explore_reward = self.initialize_reward_algo(train_env)
-                
+        
+        
+        
+        explore_reward = ICM(train_env, train_env.observation_space, train_env.action_space,\
+            self.device)
+        
+        self.callback_list = CallbackList([self.hparamcallback, 
+                                           self.checkpoint_callback,
+                                           IntrinsicRewardCallback(explore_reward) ])
+        
         
         policy = "CnnPolicy"
         self.model = PPO(policy, train_env, tensorboard_log=self.path,\
@@ -111,69 +120,18 @@ class ICMAgent(BaseAgent):
         self.model.set_logger(new_logger)
         print(f"Total training steps:{steps}")
         
-        # Set info buffer
-        # reset the env
-        episode_rewards = deque(maxlen=10)
-        episode_steps = deque(maxlen=10)
-        
         
         # Number of updates
-        num_train_steps = steps
         self.num_envs = 1
         self.num_steps = self.buffer_size
-        num_updates = num_train_steps // self.num_envs // self.num_steps
-
         
         ## write model properties to the file
         d = to_dict(self.model.__dict__)
         write_to_file(os.path.join(self.path, "model_dump.json"), d)
         
-        
-        _ = train_env.reset()
-        
-        
-        self.model.ep_info_buffer = deque(maxlen=10)
-        _, callback = self.model._setup_learn(total_timesteps=num_train_steps,callback=[self.callback_list])
-
-
-        for update in tqdm(range(num_updates)):
-            self.model.collect_rollouts(
-                env=train_env,
-                rollout_buffer=self.model.rollout_buffer,
-                n_rollout_steps=self.buffer_size,
-                callback=callback
-            )
-            
-            intrinsic_rewards = explore_reward.compute_irs(samples={
-                        "obs": self.model.rollout_buffer.observations,
-                        "actions": self.model.rollout_buffer.actions,
-                        "next_obs": self.model.rollout_buffer.observations[1:]
-                    },
-                step = self.global_episode * self.num_envs * self.num_steps)
-            
-            
-            self.model.rollout_buffer.rewards += intrinsic_rewards[:,:].numpy()
-            
-            
-            
-            # Update policy using the currently gathered rollout buffer.
-            self.model.train()
-            self.global_episode+=1
-            self.global_step +=self.num_envs * self.num_steps
-            
-            
-            episode_rewards.extend([ep_info["r"] for ep_info in self.model.ep_info_buffer])
-            
-            if update%10 == 0:
-                print('ENV:steps/total timesteps {}/{}, \n \
-                    MEAN|MEDIAN REWARDS {:.2f}|{:.2f}, MIN|MAX REWARDS {:.2f}|{:.2f}\n'.format(
-                    steps, self.global_step,
-                    np.mean(episode_rewards), 
-                    np.median(episode_rewards),
-                    np.min(episode_rewards), 
-                    np.max(episode_rewards)
-                ))
-         
+        self.model.learn(total_timesteps=steps, tb_log_name=f"{self.id}",\
+                         progress_bar=True,\
+                         callback=[self.callback_list])
         
         self.save()
         del self.model
@@ -193,5 +151,5 @@ class ICMAgent(BaseAgent):
             explore_reward = ICM(train_env.observation_space, train_env.action_space,\
                 self.device, batch_size=self.batch_size)
                 
-        print(explore_reward)
+        #print(explore_reward)
         return explore_reward

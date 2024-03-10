@@ -253,7 +253,16 @@ This will generate a collection of graphs in the folder `data/runs`.
 
 ### Running an Experiment (custom configuration)
 
-Please refer following documentation if you wish to experiment plugging different configurations of the brain, policy and modify other environment parameters. 
+Please refer following documentation if you wish to experiment plugging different configurations of the brain, policy and modify other environment parameters. [Custom Configuration](docs/custom-configuration.md)
+
+### Miscellaneous
+
+We have also implemented Unsupervised algorithms like Intrinsic Curiosity Module (ICM). If you would like to turn off, reward from the environment and use custom reward please update reward configuration in the agent config file - ```src/simulation/conf/Agent/basic.yaml```
+
+```
+reward: ICM
+
+```
 
 
 ### Known Issues
@@ -309,3 +318,9 @@ open the file `imagenet_dataset.py` and comment the line.
   year={2023}
 }
 ```
+
+## Acknowledgements
+
+We would like to acknowledge the members from our lab, [Lalit Pandey](https://github.com/L-Pandey), [Bhargav Desai](https://github.com/desaibhargav), for their work in providing checkpoints for the SimCLR model and building unity game to support agents with two-eyes respectively.
+
+We would like to thank [RleXplore](https://github.com/RLE-Foundation/RLeXplore) for unsupervised algorithms (like ICM) and [stable-baselines3](https://github.com/DLR-RM/stable-baselines3) for RL algorithm implementations.

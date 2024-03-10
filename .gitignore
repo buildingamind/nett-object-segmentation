@@ -8,7 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-docs/build/
+#docs/build/
 .readthedocs.yaml
 build/
 develop-eggs/

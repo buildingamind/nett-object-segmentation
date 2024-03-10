@@ -5,7 +5,21 @@ from torch import nn, optim
 import torch as th
 import pdb
 import torch.nn.functional as F
+import math
+import numpy as np
 
+
+def orthogonal_layer_init(layer, std=np.sqrt(2), bias_const=0.0):
+    th.nn.init.orthogonal_(layer.weight, std)
+    th.nn.init.constant_(layer.bias, bias_const)
+    return layer
+
+def default_layer_init(layer):
+    stdv = 1. / math.sqrt(layer.weight.size(1))
+    layer.weight.data.uniform_(-stdv, stdv)
+    if layer.bias is not None:
+        layer.bias.data.uniform_(-stdv, stdv)
+    return layer
 
 class Encoder(nn.Module):
     """Encoder for encoding observations
@@ -19,25 +33,44 @@ class Encoder(nn.Module):
         instance of the encoder
     
     """
-    def __init__(self, obs_shape: Tuple, action_dim: int, latent_dim: int) -> None:
+    def __init__(self, obs_shape: Tuple, action_dim: int, latent_dim: int,
+                 encoder_model:str = "mnih", weight_init="default") -> None:
         super().__init__()
         
-        self.main = nn.Sequential(
-                nn.Conv2d(obs_shape[0], 32, kernel_size=3, stride=2, padding=1),
-                nn.ELU(),
-                nn.Conv2d(32, 32, kernel_size=3, stride=2, padding=1),
-                nn.ELU(),
-                nn.Conv2d(32, 32, kernel_size=3, stride=2, padding=1),
-                nn.ELU(),
-                nn.Conv2d(32, 32, kernel_size=3, stride=2, padding=1),
-                nn.ELU(),
-                nn.Flatten(),
-            )
-        with th.no_grad():
-            sample = th.ones(size = tuple(obs_shape))
-            n_flatten = self.main(sample.unsqueeze(0)).shape[1]
+        
+        if weight_init == "orthogonal":
+            init_ = orthogonal_layer_init
+        elif weight_init == "default":
+            init_ = default_layer_init
+        else:
+            raise ValueError("Invalid weight_init")
+
+        if encoder_model == "mnih" and len(obs_shape) > 2:
+
+            self.main = nn.Sequential(
+                    init_(nn.Conv2d(obs_shape[0], 32, 8, stride=4)),
+                    nn.ReLU(),
+                    init_(nn.Conv2d(32, 64, 4, stride=2)),
+                    nn.ReLU(),
+                    init_(nn.Conv2d(64, 64, 3, stride=1)),
+                    nn.ReLU(),
+                    nn.Flatten(),
+                )
             
-        self.linear = nn.Linear(n_flatten, latent_dim)
+            
+            with th.no_grad():
+                sample = th.ones(size = tuple(obs_shape))
+                n_flatten = self.main(sample.unsqueeze(0)).shape[1]
+                
+            self.main.append(init_(nn.Linear(n_flatten, latent_dim)))
+            self.main.append(nn.ReLU())
+        else:
+            self.main = nn.Sequential(
+                init_(nn.Linear(obs_shape[0], 256)), 
+                nn.ReLU()
+            )
+            self.main.append(init_(nn.Linear(256, latent_dim)))
+            
         
     def forward(self, obs: th.Tensor) -> th.Tensor:
         """Encode input observations
@@ -48,8 +81,8 @@ class Encoder(nn.Module):
         Returns:
             torch.Tensor: _description_
         """
-            
-        return self.linear(self.main(obs))
+        
+        return self.main(obs)
     
     def feature_size(self,device):
         with th.no_grad():
@@ -69,16 +102,15 @@ class InverseDynamicsModel(nn.Module):
         Model instance.
     """
     
-    def __init__(self, latent_dim, action_dim)-> None:
+    def __init__(self, latent_dim, action_dim, encoder_model="mnih", weight_init="default") -> None:
         super(InverseDynamicsModel, self).__init__()
-        
-        dim = 2 * latent_dim
-        
-        self.main = nn.Sequential(
-            nn.Linear(latent_dim * 2, 256),
-            nn.ReLU(),
-            nn.Linear(256, action_dim),
-        )
+        #obs_shape: Tuple, action_dim: int, latent_dim: int,
+        self.trunk = Encoder(obs_shape=(latent_dim * 2,), 
+                             latent_dim=action_dim, 
+                             action_dim = action_dim,
+                             encoder_model=encoder_model, 
+                             weight_init=weight_init)
+
         
         
     
@@ -92,7 +124,8 @@ class InverseDynamicsModel(nn.Module):
         Returns:
             th.Tensor: Predicted observations
         """
-        return self.main(th.cat([obs,next_obs],dim=1))
+        
+        return self.trunk(th.cat([obs, next_obs], dim=1))
     
 class ForwardDynamicsModel(nn.Module):
     """Forward model for reconstructing transistion process
@@ -105,17 +138,17 @@ class ForwardDynamicsModel(nn.Module):
         Model instance.
     """
     
-    def __init__(self, latent_dim, action_dim) -> None:
+    def __init__(self, latent_dim, action_dim, encoder_model="mnih", weight_init="default") -> None:
         super(ForwardDynamicsModel, self).__init__()
         self.action_dim = action_dim
         
-        self.main = nn.Sequential(
-            nn.Linear(latent_dim + action_dim, 256),
-            nn.ReLU(),
-            nn.Linear(256, latent_dim),
-        )
+        self.trunk = Encoder(obs_shape=(latent_dim + action_dim,), 
+                             action_dim = action_dim,
+                             latent_dim=latent_dim, 
+                             encoder_model=encoder_model, weight_init=weight_init)
+
         
-    def forward(self, obs: th.Tensor, action: th.Tensor) -> th.Tensor:
+    def forward(self, obs: th.Tensor, pred_actions: th.Tensor) -> th.Tensor:
         """Forward function for outputing predicted next-obs.
 
         Args:
@@ -125,5 +158,5 @@ class ForwardDynamicsModel(nn.Module):
         Returns:
             Predicted next-obs.
         """
-        #pdb.set_trace()
-        return self.main(th.cat([obs, action], dim=1))
+        
+        return self.trunk(th.cat([obs, pred_actions], dim=1))

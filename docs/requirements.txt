@@ -1,6 +1,11 @@
+gym==0.21.0
+gym-unity==0.26.0
+h5py==3.9.0
+Hydra==2.5
+hydra-core==1.3.2
 sphinx
 mkdocs
 sphinx-rtd-theme
 myst-parser
 torch
-gym==0.21.0
+pandas

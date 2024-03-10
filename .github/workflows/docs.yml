@@ -22,27 +22,6 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Cache pip
-        uses: actions/cache@v3
-        id: cache-pip
-        with:
-          path: ${{ env.pythonLocation }}
-          key: ${{ runner.os }}-pip-${{ hashFiles('docs/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip
-      - name: Install pip
-        if: steps.cache-pip.outputs.cache-hit != 'true'
-        run: |
-          pip install setuptools==65.5.0 pip==21
-      - name: Install Dependencies
-        if: steps.cache-pip.outputs.cache-hit != 'true'
-        run: |
-          pip install -r docs/requirements.txt
-
-      - name: Sphinx build
-        run: |
-          sphinx-build --keep-going --jobs auto -b html docs/source/ docs/build/
-
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         # if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}

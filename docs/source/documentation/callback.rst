@@ -10,5 +10,5 @@ Callback
 .. autoclass:: callback.supervised_save_bestmodel_callback.SupervisedSaveBestModelCallback
     :members:
 
-.. autoclass:: env_wrapper.observation_wrapper.ObservationWrapper
+.. autoclass:: env_wrapper.intrinsic_reward_callback.IntrinsicRewardCallback
     :members:

@@ -10,6 +10,7 @@ from parsing_dataset import ParsingDataset
 from sklearn.manifold import TSNE
 from matplotlib import cm
 import pdb
+
 class VisualizeEncoder(object):
     
     def __init__(self, model, save_path, vector_length, dvs_wrapper,data_path = "./data") -> None:

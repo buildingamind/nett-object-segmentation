@@ -1,7 +1,7 @@
 use_ship: True 
 background: "A"
 base_port: 5100 
-env_path: '../../data/executables/parsing_benchmark/parsing.x86_64'
+env_path: '''../../data/executables/parsing_benchmark/parsing.x86_64'
 rec_path: "runs"
 record_chamber: False
 record_agent: False

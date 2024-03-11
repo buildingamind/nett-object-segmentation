@@ -40,37 +40,25 @@ If users are unfamiliar with how to install a git repository or have never used 
 ```
 .
 ├── docs                     # Documentation and guides
-├── data										 # Placeholder to storing executables, runs and checkpoints
+├── data                     # Placeholder for storing executables, runs and checkpoints
 │   ├── checkpoints 
 │   │   └── simclr
 │   ├── executables
 │   │   ├── parsing_benchmark2eyed
 │   │   └── parsing_benchmark
 │   └── runs
-├── LICENSE									 # License file
-├── README.md								 # Readme file
-├── requirements.txt				 # requirements.txt file containing project requirements
-├── scripts									 # Example scripts for running experiments
+├── LICENSE                  # License file
+├── README.md                # Readme file
+├── requirements.txt         # requirements.txt file containing project requirements
+├── scripts                  # Example scripts for running experiments
 │   └── parsing_sup.sh
-├── setup.cfg
-├── src										     # Folder containing src code
-│   ├── analysis							 # Folder containing R-scripts for doing analysis
-│   │   ├── r														
+├── src                      # Folder containing src code
+│   ├── analysis             # Folder containing R-scripts for doing analysis
+│   │   ├── r                                                    
 │   │   └── README.md
-│   └── simulation						 # Folder containing simulation code for experiments
-│       ├── agent							 # Agent configuration
-│       ├── algorithms					 # Algorithms - like Intrinsic curiosity module
-│       ├── callback						 # Callback functions to compute metrics during training
-│       ├── common						 # Common function
-│       ├── conf							 # Hydra configuration for running experiments
-│       ├── env_wrapper					 # Environment wrapper 
-│       ├── GPUtil.py					 # GPUUtils functions
-│       ├── networks					 # Encoders models
-│       ├── run.py             # Main file to run experiment
-│       └── utils.py					 # Utility functions
-└── tests									     # pytests folder
-    ├── pytest.ini		
-    └── test_env.py
+│   └── simulation            # Folder containing simulation code for experiments
+│       ├── agent             # Agent configuration
+│       ├── algorithms        # Algorithms - like Intrinsic curiosity module
 
 ```
 ## Getting Started

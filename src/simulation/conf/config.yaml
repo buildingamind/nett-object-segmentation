@@ -1,7 +1,6 @@
 agent_count: 1
 run_id: parsing_fork_C_simclr_ppo_trajectory_exp
-log_path: /data/mchivuku/embodiedai/iclr/cameraready/simclr/ppo/${run_id}
-#log_path: data/runs/${run_id}
+log_path: data/runs/${run_id}
 mode: full
 train_eps: 1000
 test_eps: 20

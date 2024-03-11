@@ -240,10 +240,7 @@ The structure of the folder
     |       └── test
     └── run.log
 ```
-The experiments can be run on two objects with three backgrounds each (A, B and, C) as described in the paper:
-Object 1 - Ship
-Object 2 - Fork
-
+The experiments can be run on two objects (object 1, object 2) with three backgrounds each (A, B and, C) as described in the paper:
 The following code snippet shows how to update the configuration in `src/simulation/conf/Environment/parsing.yml` to run the experiment:
 
 ```yaml
@@ -253,8 +250,10 @@ background: A
 
 The configuration varies depending on the object:
 
-- For Object 1: use_ship is set to true and background can be A, B, or C.
-- For Object 2: use_ship is set to false and background can also be A, B, or C.
+- **For Object 1**: use_ship is set to true and background can be A, B, or C.
+- **For Object 2**: use_ship is set to false and background can also be A, B, or C.
+
+
 Refer to the videos below for a visual representation of these configurations.
 
 | Object | Background A | Background B | Background C |

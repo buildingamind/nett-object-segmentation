@@ -10,9 +10,9 @@
 | [Documentation](https://buildingamind.github.io/nett-object-segmentation/) 
 ![GitHub License](https://img.shields.io/github/license/buildingamind/nett-object-segmentation)
 
-<div style="width: 100px; margin: auto;">
+<div style="margin: auto;">
 
-[Parsing](https://github.com/buildingamind/pipeline_embodied/assets/1686251/839bd04c-8853-44c4-b275-5e61413a3904)
+<img src="docs/_static/video/parsing.gif" width="400" height="200" alt="Parsing"/>
 
 </div>
 

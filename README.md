@@ -14,7 +14,7 @@
 
 <center>
 <video width="320" height="240" controls autoplay>
-  <source src="docs/_static/video/parsing.mp4" type="video/mp4">
+  <source src="https://github.com/buildingamind/nett-object-segmentation/blob/main/docs/_static/video/parsing.mp4" type="video/mp4">
 </video>
 </center>
 

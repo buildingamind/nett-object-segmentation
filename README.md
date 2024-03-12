@@ -11,11 +11,11 @@
 ![GitHub License](https://img.shields.io/github/license/buildingamind/nett-object-segmentation)
 
 </div>
-<center>
-<video width="240" height="180" controls autoplay>
-  <source src="https://github-production-user-asset-6210df.s3.amazonaws.com/1686251/252157763-839bd04c-8853-44c4-b275-5e61413a3904.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240312%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240312T003201Z&X-Amz-Expires=300&X-Amz-Signature=583e9a4d1328c1e33285454f430049114f62ce3377992e0286ed838f50a68af1&X-Amz-SignedHeaders=host&actor_id=1686251&key_id=0&repo_id=456981268" type="video/mp4">
-</video>
-</center>
+<div style="width: 100px; margin: auto;">
+
+[Parsing](https://github.com/buildingamind/pipeline_embodied/assets/1686251/839bd04c-8853-44c4-b275-5e61413a3904)
+
+</div>
 
 ## Abstract
 

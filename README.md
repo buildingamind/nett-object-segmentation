@@ -12,9 +12,9 @@
 
 </div>
 <center>
-
-[Parsing](https://github.com/buildingamind/pipeline_embodied/assets/1686251/839bd04c-8853-44c4-b275-5e61413a3904)
-
+<video width="240" height="180" controls autoplay>
+  <source src="https://github.com/buildingamind/pipeline_embodied/assets/1686251/839bd04c-8853-44c4-b275-5e61413a3904" type="video/mp4">
+</video>
 </center>
 ## Abstract
 

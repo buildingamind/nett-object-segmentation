@@ -99,11 +99,11 @@ This section describes the installation of simulation code and running the bench
 
 The first step is downloading unity executable. The unity executables can be downloaded from:
 
-| Unity Executable  | Link |
-| ------------- | ------------- |
-| Parsing  | https://origins.luddy.indiana.edu/unity/iclr-2024/executables/parsing.zip    |
-| Parsing Stereo (2-eyed agent)  | https://origins.luddy.indiana.edu/unity/iclr-2024/executables/parsing_stereo.zip     |
- 
+| Unity Executables |
+| ------------- | 
+| [Parsing](https://origins.luddy.indiana.edu/unity/iclr-2024/executables/parsing.zip)   |
+| [Parsing Stereo (2-eyed agent)](https://origins.luddy.indiana.edu/unity/iclr-2024/executables/parsing_stereo.zip)|
+
 After downloading the execuatable run following commands to unzip and copy into executables folder in data
 
 ```

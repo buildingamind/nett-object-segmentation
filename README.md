@@ -13,7 +13,7 @@
 </div>
 <center>
 <video width="240" height="180" controls autoplay>
-  <source src="https://github.com/buildingamind/pipeline_embodied/assets/1686251/839bd04c-8853-44c4-b275-5e61413a3904" type="video/mp4">
+  <source src="https://github-production-user-asset-6210df.s3.amazonaws.com/1686251/252157763-839bd04c-8853-44c4-b275-5e61413a3904.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240312%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20240312T003201Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=583e9a4d1328c1e33285454f430049114f62ce3377992e0286ed838f50a68af1&amp;X-Amz-SignedHeaders=host&amp;actor_id=1686251&amp;key_id=0&amp;repo_id=456981268" type="video/mp4">
 </video>
 </center>
 ## Abstract

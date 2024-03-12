@@ -362,6 +362,6 @@ ModuleNotFoundError: No module named 'torch._six'
 
 We would like to acknowledge the members from our lab, [Lalit Pandey](https://github.com/L-Pandey), [Bhargav Desai](https://github.com/desaibhargav), for their work in providing checkpoints for the SimCLR model and building unity game to support agents with two-eyes respectively.
 
-We would like to thank [stable-baselines3](https://github.com/DLR-RM/stable-baselines3) for RL algorithm implementations and [RleXplore](https://github.com/RLE-Foundation/RLeXplore) for unsupervised algorithms (like ICM) and .
+We would like to thank [stable-baselines3](https://github.com/DLR-RM/stable-baselines3) for RL algorithm implementations and [RleXplore](https://github.com/RLE-Foundation/RLeXplore) for unsupervised algorithms (like ICM).
 
 [Back to Top](#abstract)

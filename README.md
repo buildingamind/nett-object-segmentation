@@ -328,8 +328,9 @@ File "/home/<user>/anaconda3/envs/nett_env2/lib/python3.8/site-packages/pl_bolts
     from torch._six import PY3
 ModuleNotFoundError: No module named 'torch._six'
 ```
-open the file `imagenet_dataset.py` and comment the line.
----
+  open the file `imagenet_dataset.py` and comment the line.
+
+
 ## Contributors
 <table>
   <tr>

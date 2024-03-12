@@ -12,16 +12,23 @@
 
 </div>
 
+<center>
+<video width="320" height="240" controls autoplay>
+  <source src="docs/_static/video/parsing.mp4" type="video/mp4">
+</video>
+</center>
+
 ## Abstract
 
 Newborn brains rapidly learn to solve challenging object perception tasks, including segmenting objects from backgrounds and recognizing objects across new viewing situations. Conversely, modern machine learning (ML) algorithms are “data hungry,” requiring more training data than brains to reach similar performance levels. How do we close this learning gap between brains and machines? Here, we introduce a new benchmark—a Newborn Embodied Turing Test (NETT) for object segmentation—in which newborn animals and machines are raised in the same environments and tested with the same tasks, permitting direct comparison of their learning. First, newborn chicks were raised in controlled environments containing a single object rotating on a single background, then their recognition performance was tested across new backgrounds and viewpoints. Second, we performed “digital twin” experiments in which artificial agents were reared and tested in virtual environments that mimicked the rearing and testing conditions of the chicks. We inserted a variety of ML “brains” into the artificial agents and measured whether those algorithms learned common object recognition behavior as chicks. All newborn chicks solved this one-shot object segmentation task, successfully learning *background-invariant* object representations that generalized across new backgrounds and viewpoints. In contrast, none of the artificial agents solved the task, instead learning *background-dependent* representations that failed to generalize across new backgrounds and viewpoints. This digital twin design exposes core limitations in current ML algorithms in developing brain-like object perception. Our NETT is publicly available for comparing ML algorithms with newborn chicks. We argue that NETT benchmarks can help researchers build embodied AI systems that learn as efficiently and robustly as newborn brains.
 
-Below is a visual representation of our experimental setup, showcasing the infrastructure for the three primary experiments discussed in this documentation.
+Below is a visual representation of our experimental setup.
 
 <div align="center">
   <img src="https://github.com/buildingamind/nett-object-segmentation/blob/main/docs/_static/figure1.jpg" alt="nett_architecture"/>
 </div>
 
+---
 
 ## **How to Use this Repository**
 
@@ -61,17 +68,34 @@ If users are unfamiliar with how to install a git repository or have never used 
 │       ├── algorithms        # Algorithms - like Intrinsic curiosity module
 
 ```
+---
+
 ## Getting Started
 
 The section describes how to get started with running the experiments and performing the analysis of the results.
 
-### Installation
+## Table of Contents
+1. [Getting Started](#getting-started)
+2. [Installation](#installation)
+   - [Downloading Unity Assets](#downloading-unity-assets)
+   - [Downloading Pretrained Models](#downloading-pretrained-models)
+   - [Codebase Installation](#codebase-installation)
+3. [Running the Experiment](#running-an-experiment-default-configuration)
+   - [Running the Experiment with Custom Configuration](#running-an-experiment-custom-configuration)
+4. [Running Standard Analysis](#running-standard-analysis)
+5. [Miscellaneous](#miscellaneous)
+6. [Known Issues](#known-issues)
+   - [Errors during installation](#errors-during-installation)
+   - [Errors during running the code](#errors-during-running-the-code)
+7. [Contributors](#contributors)
+8. [Citation](#citation)
+9  [Acknowledgements](#acknowledgements)
 
-## How to Install
+### Installation
 
 This section describes the installation of simulation code and running the benchmark experiments.
 
-### Downloading Unity Assets
+#### Downloading Unity Assets
 
 The first step is downloading unity executable. The unity executables can be downloaded from:
 
@@ -126,7 +150,7 @@ Make Ubuntu use X Server for display.
 export DISPLAY=:0
 ```
 
-### Downloading Pretrained Models
+#### Downloading Pretrained Models
 In order, to run pretrained SIMCLR experiments download the model state dict from:[SIMCLR](https://origins.luddy.indiana.edu/unity/iclr-2024/checkpoints/simclr). Copy the checkpoints into - data/checkpoints folder. The new directory structure show look like this:
 ```
 ├── data
@@ -146,7 +170,7 @@ In order, to run pretrained SIMCLR experiments download the model state dict fro
 │   └── runs
 ```
 
-### Codebase Installation
+#### Codebase Installation
 
 1. **Install Git and/or Github Desktop**: If you install Git, you'll be able to interact with Github through the command line. You can download Git using the directions here: [https://git-scm.com/downloads](https://git-scm.com/downloads). If you install Git Desktop, you can use a GUI to interact with Github. You can install Github Desktop by following the directions here: [https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/). For the following steps, I will provide the command line arguments (but you can use the GUI to find the same options in Github Desktop).
 
@@ -177,7 +201,7 @@ In order, to run pretrained SIMCLR experiments download the model state dict fro
 
 Please check (#known-issues) to address known issues during installation.
 
-### Running an Experiment (default configuration)
+## Running an Experiment (default configuration)
 
 After having followed steps above experiments can be run with a few lines of code in the script
 
@@ -250,8 +274,12 @@ Refer to the videos below for a visual representation of these configurations.
 | 2   (Fork)   | <img src="docs/_static/video/2A_00.gif" width="100" height="100" />  | <img src="docs/_static/video/2B_00.gif" width="100" height="100" />  | <img src="docs/_static/video/2C_00.gif" width="100" height="100" />  |
 
 
+### Running an Experiment (custom configuration)
 
-### Running Standard Analysis
+Please refer following documentation if you wish to experiment plugging different configurations of the brain, policy and modify other environment parameters. [Custom Configuration](docs/custom-configuration.md)
+
+---
+## Running Standard Analysis
 
 After running the experiments, the pipeline will generate a collection of datafiles in the `data/runs` folder. To run the analyses performed in the papers you can use the following command
 
@@ -261,12 +289,9 @@ python3 src/analysis/r/run_analysis.py --log-dir data/runs
 
 This will generate a collection of graphs in the folder `data/runs`.
 
+---
 
-### Running an Experiment (custom configuration)
-
-Please refer following documentation if you wish to experiment plugging different configurations of the brain, policy and modify other environment parameters. [Custom Configuration](docs/custom-configuration.md)
-
-### Miscellaneous
+## Miscellaneous
 
 We have also implemented Unsupervised algorithms like Intrinsic Curiosity Module (ICM). If you would like to turn off, reward from the environment and use custom reward please update reward configuration in the agent config file - ```src/simulation/conf/Agent/basic.yaml```
 
@@ -275,10 +300,10 @@ reward: ICM
 
 ```
 
+---
+## Known Issues
 
-### Known Issues
-
-#### Errors during installation
+### Errors during installation
 
 1. Issue with completing pip install due to torch version mismatch. This can be resolved by manually installing stable-baselines3, stable-baselines3[extra] and sb3_contrib later after pip install in step 3. 
 
@@ -287,7 +312,7 @@ pip install stable-baselines3==1.8
 pip install stable-baselines3[extra]==1.8.0
 pip install sb3_contrib==1.8
 ``` 
-##### Errors during running the code
+### Errors during running the code
 
 1. torch._six not found.
 
@@ -304,7 +329,7 @@ File "/home/<user>/anaconda3/envs/nett_env2/lib/python3.8/site-packages/pl_bolts
 ModuleNotFoundError: No module named 'torch._six'
 ```
 open the file `imagenet_dataset.py` and comment the line.
-
+---
 ## Contributors
 <table>
   <tr>
@@ -329,9 +354,11 @@ open the file `imagenet_dataset.py` and comment the line.
   year={2023}
 }
 ```
-
+---
 ## Acknowledgements
 
 We would like to acknowledge the members from our lab, [Lalit Pandey](https://github.com/L-Pandey), [Bhargav Desai](https://github.com/desaibhargav), for their work in providing checkpoints for the SimCLR model and building unity game to support agents with two-eyes respectively.
 
-We would like to thank [RleXplore](https://github.com/RLE-Foundation/RLeXplore) for unsupervised algorithms (like ICM) and [stable-baselines3](https://github.com/DLR-RM/stable-baselines3) for RL algorithm implementations.
+We would like to thank [stable-baselines3](https://github.com/DLR-RM/stable-baselines3) for RL algorithm implementations and [RleXplore](https://github.com/RLE-Foundation/RLeXplore) for unsupervised algorithms (like ICM) and .
+
+[Back to Top](#abstract)

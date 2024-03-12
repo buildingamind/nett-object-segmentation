@@ -16,6 +16,7 @@
 
 </div>
 
+</div>
 
 ## Abstract
 
@@ -28,7 +29,8 @@ Below is a visual representation of our experimental setup.
 <img src="https://github.com/buildingamind/nett-object-segmentation/blob/main/docs/_static/figure1.jpg" alt="nett_architecture"/>
 
 </div>
----
+
+
 
 ## **How to Use this Repository**
 

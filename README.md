@@ -38,7 +38,7 @@ The repository comprises three key components:
 2. **Experimental Simulation Programs**: Tools to initiate and conduct experiments within the virtual world.
 3. **Data Visualization Programs**: Utilities for analyzing and visualizing experiment outcomes.
 
-If users are unfamiliar with how to install a git repository or have never used unity before please scroll down to how to the [How to install](#how-to-install)
+If users are unfamiliar with how to install a git repository or have never used unity before please scroll down to: [How to install](#how-to-install)
 
 ## **Directory Structure**
 

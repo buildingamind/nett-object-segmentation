@@ -89,7 +89,7 @@ The section describes how to get started with running the experiments and perfor
    - [Errors during running the code](#errors-during-running-the-code)
 7. [Contributors](#contributors)
 8. [Citation](#citation)
-9  [Acknowledgements](#acknowledgements)
+9. [Acknowledgements](#acknowledgements)
 
 ### Installation
 

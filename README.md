@@ -336,10 +336,10 @@ ModuleNotFoundError: No module named 'torch._six'
 ## Contributors
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/mchivuku"><img src="https://avatars.githubusercontent.com/u/90662028?v=4?s=100" width="100px;" alt=""/><br /><b>Manjulata Garimella</b></td>
-    <td align="center"><a href="https://github.com/denizhanpak"><img src="https://avatars.githubusercontent.com/u/90662028?v=4?s=100" width="100px;" alt=""/><br /><b>Denizhan Pak</b></td>
-    <td align="center"><a href="https://github.com/smwwood"><img src="https://avatars.githubusercontent.com/u/90662028?v=4?s=100" width="100px;" alt=""/><br /><b> Samantha M. W. Wood</b></td>
-    <td align="center"><a href="https://github.com/justinnwood"><img src="https://avatars.githubusercontent.com/u/90662028?v=4?s=100" width="100px;" alt=""/><br /><b> Justin N. Wood</b></td>
+    <td align="center"><a href="https://github.com/mchivuku"><br /><b>Manjulata Garimella</b></td>
+    <td align="center"><a href="https://github.com/denizhanpak"><br /><b>Denizhan Pak</b></td>
+    <td align="center"><a href="https://github.com/smwwood"><br /><b> Samantha M. W. Wood</b></td>
+    <td align="center"><a href="https://github.com/justinnwood"><br /><b> Justin N. Wood</b></td>
 </tr>
 
 </table>
